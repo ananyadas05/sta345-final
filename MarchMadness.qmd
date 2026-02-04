@@ -1,0 +1,31 @@
+---
+title: "MarchMadness"
+format: pdf
+editor: visual
+---
+
+## 
+
+```{r}
+library(readr)
+library(dplyr)
+```
+
+```{r}
+files <- list.files("March Madness Regular Season Data", pattern = "\\.csv$", full.names = TRUE)
+
+
+regular_season_df <- files |>
+  lapply(function(f) read_csv(f, col_types = cols(.default = "c"))) |>
+  bind_rows()
+```
+
+```{r}
+getwd()
+list.files()
+list.files("March Madness Regular Season Data")
+```
+
+```{r}
+tourney_result <- read_csv("tourney_results_mod_through_2025.csv")
+```
