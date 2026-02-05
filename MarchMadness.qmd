@@ -29,3 +29,111 @@ list.files("March Madness Regular Season Data")
 ```{r}
 tourney_result <- read_csv("tourney_results_mod_through_2025.csv")
 ```
+
+```{r}
+lower_better <- c(
+  # Negative outcomes (your team)
+  "Turnovers per Game",
+  "Turnovers per Possession",
+  "Turnovers per Offensive Play",
+  "Personal Fouls per Game",
+  "Personal Fouls per Possession",
+  "Personal Fouls per Defensive Play",
+  
+  # Opponent stats – you want *less* of these
+  "Opponent Points per Game",
+  "Opponent Average Scoring Margin",
+  "Opponent Floor %",
+  "Opponent 1st Half Points per Game",
+  "Opponent 2nd Half Points per Game",
+  "Opponent Overtime Points per Game",
+  "Opponent Points from 2 pointers",
+  "Opponent Points from 3 pointers",
+  "Opponent Shooting %",
+  "Opponent Effective Field Goal %",
+  "Opponent Three Point %",
+  "Opponent Two Point %",
+  "Opponent Free Throw %",
+  "Opponent True Shooting %",
+  "Opponent Field Goals Made per Game",
+  "Opponent Three Pointers Made per Game",
+  "Opponent Free Throws Made per Game",
+  "Opponent Non-blocked 2 Pt %",
+  "Opponent Offensive Rebounds per Game",
+  "Opponent Offensive Rebounding %",
+  "Opponent Assists per Game",
+  "Opponent Assists per FGM",
+  "Opponent Assists per Possession",
+  "Opponent Assist / Turnover Ratio",
+  "Opponent Win % - All Games",
+  "Opponent Win % - Close Games",
+  "Opponent Effective Possession Ratio",
+  
+  # Defensive efficiency (points allowed per 100 poss)
+  "Defensive Efficiency",
+  
+  # Mixed/negative:
+  # Opponent Defensive Rebounding % is bad for you
+  "Opponent Defensive Rebounding %"
+)
+lower_better[!lower_better %in% names(regular_season_df)]
+
+```
+
+```{r}
+regular_season_unique <- regular_season_df |>
+  distinct(school, year, .keep_all = TRUE)
+
+stat_cols <- regular_season_unique |>
+  select(-school, -year) |>
+  names()
+```
+
+```{r}
+team_season_ranks <- regular_season_unique |>
+  group_by(year) |>
+  mutate(
+    # Stats where higher is better
+    across(
+      all_of(setdiff(stat_cols, lower_better)),
+      ~ {
+        x_num <- parse_number(as.character(.))
+        rank(-x_num, ties.method = "average")
+      }
+    ),
+
+    # Stats where lower is better
+    across(
+      all_of(lower_better),
+      ~ {
+        x_num <- parse_number(as.character(.))
+        rank(x_num, ties.method = "average")
+      }
+    )
+  ) |>
+  ungroup()
+```
+
+```{r}
+regular_season_unique %>%
+  count(school, year) %>%
+  filter(n > 1) %>%
+  arrange(desc(n))
+```
+
+round of 64 games we are looking at
+
+```{r}
+top_vs_bottom_round64 <- tourney_result |>
+  mutate(
+    low_seed  = pmin(wteam_seed, lteam_seed),
+    high_seed = pmax(wteam_seed, lteam_seed)
+  ) |>
+  filter(
+    round == 64,
+    (low_seed == 1 & high_seed == 16) |
+    (low_seed == 2 & high_seed == 15) |
+    (low_seed == 3 & high_seed == 14) |
+    (low_seed == 4 & high_seed == 13)
+  )
+```
