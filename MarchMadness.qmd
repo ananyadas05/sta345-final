@@ -9,6 +9,7 @@ editor: visual
 ```{r}
 library(readr)
 library(dplyr)
+library(tidyr)
 ```
 
 ```{r}
@@ -136,4 +137,232 @@ top_vs_bottom_round64 <- tourney_result |>
     (low_seed == 3 & high_seed == 14) |
     (low_seed == 4 & high_seed == 13)
   )
+```
+
+```{r}
+library(tidyr)
+# Check team name matches
+teams_in_tourney <- top_vs_bottom_round64 |>
+  select(wteam_school, lteam_school) |>
+  pivot_longer(everything(), values_to = "team") |>
+  distinct(team) |>
+  pull(team)
+
+teams_in_rankings <- team_season_ranks |>
+  distinct(school) |>
+  pull(school)
+
+# Find tournament teams not in rankings
+missing_from_rankings <- setdiff(teams_in_tourney, teams_in_rankings)
+print("Teams in tournament but not in rankings:")
+print(missing_from_rankings)
+
+# Find which years these teams appear in
+top_vs_bottom_round64 |>
+  filter(wteam_school %in% missing_from_rankings | lteam_school %in% missing_from_rankings) |>
+  select(season, wteam_school, lteam_school) |>
+  arrange(season)
+```
+
+```{r}
+library(tidyr)
+
+# Updated name mapping with correct ranking names
+name_fixes <- tribble(
+  ~tourney_name, ~ranking_name,
+  "Loyola-Chi", "Loyola Chi",
+  "N Carolina", "North Carolina",
+  "Ohio State", "Ohio St",
+  "Iowa State", "Iowa St",
+  "St Johns", "St John's",
+  "GA Tech", "Georgia Tech",
+  "Northeastrn", "Northeastern",
+  "U Penn", "Penn",
+  "Miss Val St", "Miss Valley St",
+  "Ball State", "Ball St",
+  "AR Lit Rock", "Little Rock",
+  "LA Monroe", "UL Monroe",
+  "TX Christian", "TCU",
+  "Central Mich", "C Michigan",
+  "Idaho State", "Idaho St",
+  "LA Tech", "Louisiana Tech",
+  "GA Southern", "Georgia So",
+  "Boise State", "Boise St",
+  "North Texas", "N Texas",
+  "TX-San Ant", "UTSA",
+  "Rob Morris", "Robert Morris",
+  "S Car State", "S Carolina St",
+  "McNeese St", "McNeese",
+  "E Tenn St", "E Tennessee St",
+  "Geo Mason", "George Mason",
+  "Connecticut", "UConn",
+  "S Mississippi", "Southern Miss",
+  "TX Southern", "Texas So",
+  "Coppin State", "Coppin St",
+  "St Fran (PA)", "St Francis PA",
+  "Penn State", "Penn St",
+  "Miami (OH)", "Miami OH",
+  "U Mass", "UMass",
+  "LA Lafayette", "Louisiana",
+  "TN State", "Tennessee St",
+  "Wright State", "Wright St",
+  "James Mad", "J Madison",
+  "Texas State", "Texas St",
+  "Central FL", "UCF",
+  "Hawaii", "Hawai'i",
+  "Loyola-MD", "Loyola MD",
+  "N Mex State", "New Mexico St",
+  "Mt St Marys", "Mt St Mary's",
+  "Nicholls St", "Nicholls",
+  "St Peters", "Saint Peter's",
+  "WI-Grn Bay", "Green Bay",
+  "Lg Beach St", "Long Beach St",
+  "Weber State", "Weber St",
+  "NC-Grnsboro", "NC Greensboro",
+  "St Josephs", "Saint Joseph's",
+  "Charl South", "Charleston So",
+  "S Carolina", "South Carolina",
+  "St Marys", "Saint Mary's",
+  "Utah State", "Utah St",
+  "San Fransco", "San Francisco",
+  "Col Charlestn", "Charleston",
+  "Alcorn State", "Alcorn St",
+  "Miami (FL)", "Miami",
+  "Central Conn", "C Connecticut",
+  "SE Missouri", "SE Missouri St",
+  "NC-Wilmgton", "NC Wilmington",
+  "Boston Col", "Boston College",
+  "Kent State", "Kent St",
+  "Cal St Nrdge", "CS Northridge",
+  "Fla Atlantic", "Florida Atlantic",
+  "Miss State", "Mississippi St",
+  "IL-Chicago", "Illinois Chicago",
+  "Sam Hous St", "Sam Houston",
+  "IUPUI", "IU Indy",
+  "NC-Asheville", "NC Asheville",
+  "TX El Paso", "UTEP",
+  "E Washingtn", "E Washington",
+  "Wash State", "Washington St",
+  "TX A&M-CC", "Texas A&M-CC",
+  "Maryland BC", "UMBC",
+  "TX-Arlington", "UT Arlington",
+  "Ste F Austin", "SF Austin",
+  "Ark Pine Bl", "AR-Pine Bluff",
+  "W Virginia", "West Virginia",
+  "St Bonavent", "St Bonaventure",
+  "Detroit", "Detroit Mercy",
+  "Fla Gulf Cst", "FGCU",
+  "WI-Milwkee", "Milwaukee",
+  "Abilene Chr", "Abl Christian",
+  "Gardner Webb", "Gardner-Webb",
+  "VA Tech", "Virginia Tech",
+  "Kennesaw", "Kennesaw St",
+  "UNC Wilmington", "NC Wilmington"
+)
+
+# Apply the fixes
+top_vs_bottom_round64_fixed <- top_vs_bottom_round64 |>
+  left_join(name_fixes, by = c("wteam_school" = "tourney_name")) |>
+  mutate(wteam_school = coalesce(ranking_name, wteam_school)) |>
+  select(-ranking_name) |>
+  left_join(name_fixes, by = c("lteam_school" = "tourney_name")) |>
+  mutate(lteam_school = coalesce(ranking_name, lteam_school)) |>
+  select(-ranking_name)
+
+# Verify the fixes worked
+teams_in_tourney_fixed <- unique(c(
+  top_vs_bottom_round64_fixed$wteam_school,
+  top_vs_bottom_round64_fixed$lteam_school
+))
+
+missing_after_fix <- setdiff(teams_in_tourney_fixed, teams_in_rankings)
+print("Teams still missing after fixes:")
+print(missing_after_fix)
+
+# Also check if there are still mismatches
+print(paste("Number of mismatches remaining:", length(missing_after_fix)))
+```
+
+```{r}
+
+# Filter to only years with available data (2000+)
+top_vs_bottom_round64_filtered <- top_vs_bottom_round64_fixed |>
+  filter(season >= 2000)
+
+# Convert year to numeric in team_season_ranks
+team_season_ranks <- team_season_ranks |>
+  mutate(year = as.numeric(year))
+
+# Now create matchup statistics with the filtered data
+matchup_stats <- top_vs_bottom_round64_filtered |>
+  left_join(
+    team_season_ranks,
+    by = c("wteam_school" = "school", "season" = "year")
+  ) |>
+  left_join(
+    team_season_ranks,
+    by = c("lteam_school" = "school", "season" = "year"),
+    suffix = c("_winner", "_loser")
+  )
+
+# Identify which team is lower-seeded and which is higher-seeded
+matchup_stats <- matchup_stats |>
+  mutate(
+    is_upset = (wteam_seed > lteam_seed),
+    lower_seed_team = if_else(wteam_seed > lteam_seed, "winner", "loser"),
+    higher_seed_team = if_else(wteam_seed < lteam_seed, "winner", "loser")
+  )
+
+# Calculate matchup statistics (lower seed rank - higher seed rank)
+# Get all stat column names
+stat_cols_winner <- grep("_winner$", names(matchup_stats), value = TRUE)
+
+# Remove the suffixes to get base stat names
+base_stat_names <- sub("_winner$", "", stat_cols_winner)
+
+# Create matchup stat columns
+for (stat in base_stat_names) {
+  winner_col <- paste0(stat, "_winner")
+  loser_col <- paste0(stat, "_loser")
+  matchup_col <- paste0("matchup_", stat)
+  
+  matchup_stats <- matchup_stats |>
+    mutate(
+      !!matchup_col := if_else(
+        lower_seed_team == "winner",
+        as.numeric(!!sym(winner_col)) - as.numeric(!!sym(loser_col)),
+        as.numeric(!!sym(loser_col)) - as.numeric(!!sym(winner_col))
+      )
+    )
+}
+
+# Select relevant columns for analysis
+matchup_stats_clean <- matchup_stats |>
+  select(
+    season,
+    wteam_school,
+    lteam_school,
+    wteam_seed,
+    lteam_seed,
+    is_upset,
+    round,
+    starts_with("matchup_")
+  )
+
+# View the result
+head(matchup_stats_clean)
+
+# Check for any missing values
+missing_summary <- matchup_stats_clean |>
+  summarise(across(starts_with("matchup_"), ~sum(is.na(.))))
+
+print("Missing values per matchup statistic:")
+print(t(missing_summary))
+
+# Save the dataset
+write_csv(matchup_stats_clean, "matchup_statistics.csv")
+
+print(paste("Total games:", nrow(matchup_stats_clean)))
+print(paste("Total upsets:", sum(matchup_stats_clean$is_upset)))
+print(paste("Upset percentage:", round(100 * mean(matchup_stats_clean$is_upset), 1), "%"))
 ```
