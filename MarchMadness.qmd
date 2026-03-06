@@ -366,3 +366,7 @@ print(paste("Total games:", nrow(matchup_stats_clean)))
 print(paste("Total upsets:", sum(matchup_stats_clean$is_upset)))
 print(paste("Upset percentage:", round(100 * mean(matchup_stats_clean$is_upset), 1), "%"))
 ```
+
+```{r}
+write.csv(matchup_stats_clean, "/Users/ananyadas/sta345-final/matchupstats_original.csv")
+```

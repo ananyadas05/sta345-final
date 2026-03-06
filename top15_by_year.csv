@@ -1,0 +1,346 @@
+target_year,rank,feature,importance
+2002,1,matchup_Personal Fouls per Defensive Play,0.0338682161499984
+2002,2,matchup_Personal Fouls per Possession,0.03308674729621601
+2002,3,matchup_Assist / Turnover Ratio,0.030220293162788403
+2002,4,matchup_Floor %,0.024784863043877097
+2002,5,matchup_Offensive Efficiency,0.02278248496928753
+2002,6,matchup_Opponent Steals per Defensive Play,0.022551499953525487
+2002,7,matchup_Opponent Free Throws Attempted per Offensive Play,0.02104095880583977
+2002,8,matchup_Opponent Offensive Rebounding %,0.019460728064130687
+2002,9,matchup_Turnovers per Offensive Play,0.019405982575724817
+2002,10,matchup_Opponent FTA per FGA,0.01919988076568982
+2002,11,matchup_Defensive Rebounding %,0.01906224946332578
+2002,12,matchup_Opponent Percent of Points from Free Throws,0.018816645634409407
+2002,13,matchup_Opponent Steals per Possession,0.018422180851771736
+2002,14,matchup_Opponent Free Throws Made per 100 Possessions,0.0183263468007177
+2002,15,matchup_Personal Fouls per Game,0.017888767358008775
+2003,1,matchup_Personal Fouls per Game,0.028455411869074427
+2003,2,matchup_Personal Fouls per Defensive Play,0.02711948199955597
+2003,3,matchup_Personal Fouls per Possession,0.026414583080978372
+2003,4,matchup_Opponent Offensive Rebounding %,0.025523896881228622
+2003,5,matchup_Opponent Free Throws Attempted per Offensive Play,0.02533918116556085
+2003,6,matchup_Defensive Rebounding %,0.024868531381892704
+2003,7,matchup_Opponent FTA per FGA,0.02458748614936598
+2003,8,matchup_Opponent Steals per Defensive Play,0.02107629176585862
+2003,9,matchup_Opponent Free Throws Made per 100 Possessions,0.01998794728632317
+2003,10,matchup_Opponent Free Throws Made per Game,0.01972673065011
+2003,11,matchup_Opponent Steals per Possession,0.017831350310125085
+2003,12,matchup_Assist / Turnover Ratio,0.016680284372933833
+2003,13,matchup_Offensive Efficiency,0.016625862937864718
+2003,14,matchup_Opponent Free Throws Attempted per Game,0.01634157642867575
+2003,15,matchup_Opponent Percent of Points from Free Throws,0.015394200454623185
+2004,1,matchup_Personal Fouls per Defensive Play,0.02593675795442199
+2004,2,matchup_Personal Fouls per Possession,0.025592403721441098
+2004,3,matchup_Personal Fouls per Game,0.02317534369974212
+2004,4,matchup_Opponent Free Throw %,0.019822863281760677
+2004,5,matchup_Opponent Steals per Defensive Play,0.018615188674197473
+2004,6,matchup_Opponent Offensive Rebounding %,0.01689207391815425
+2004,7,matchup_Opponent FTA per FGA,0.0168443468147825
+2004,8,matchup_Opponent Three Point %,0.016725692282125823
+2004,9,matchup_Defensive Rebounding %,0.016536899101529334
+2004,10,matchup_Opponent Steals per Possession,0.0164269595142634
+2004,11,matchup_Average 2nd Half Margin,0.016201516497769904
+2004,12,matchup_Offensive Efficiency,0.01617716436829912
+2004,13,matchup_Opponent Free Throws Attempted per Offensive Play,0.01608568219632346
+2004,14,matchup_Assist / Turnover Ratio,0.01500417886862182
+2004,15,matchup_Floor %,0.014554232137378859
+2005,1,matchup_Personal Fouls per Defensive Play,0.024742715306001854
+2005,2,matchup_Personal Fouls per Possession,0.022592973305876472
+2005,3,matchup_Average 2nd Half Margin,0.018594136845395574
+2005,4,matchup_Opponent Offensive Rebounding %,0.018050696604228034
+2005,5,matchup_Defensive Rebounding %,0.018022999403800213
+2005,6,matchup_Opponent Three Point %,0.017008065179844916
+2005,7,matchup_Opponent Steals per Defensive Play,0.01635423052272784
+2005,8,matchup_Personal Fouls per Game,0.01621093538092856
+2005,9,matchup_Offensive Efficiency,0.01586872344299708
+2005,10,matchup_Floor %,0.015798599229593036
+2005,11,matchup_Opponent Offensive Rebounds per Game,0.015527997692523958
+2005,12,matchup_Blocks per Game,0.015474119874444124
+2005,13,matchup_Opponent Steals per Possession,0.014110047043933076
+2005,14,matchup_Opponent FTA per FGA,0.014058164214359969
+2005,15,matchup_Opponent Free Throw %,0.013895493003301944
+2006,1,matchup_Personal Fouls per Defensive Play,0.018374715751298825
+2006,2,matchup_Opponent Free Throws Attempted per Offensive Play,0.018183431777996802
+2006,3,matchup_Personal Fouls per Possession,0.018065036780872734
+2006,4,matchup_Average 2nd Half Margin,0.016870888412156247
+2006,5,matchup_Opponent Free Throws Made per Game,0.014953243522215024
+2006,6,matchup_Opponent Offensive Rebounding %,0.014683906098599635
+2006,7,matchup_Opponent FTA per FGA,0.014363619063841815
+2006,8,matchup_Defensive Rebounding %,0.014297820188023766
+2006,9,matchup_Offensive Efficiency,0.013827258457353298
+2006,10,matchup_Blocks per Game,0.01356841880411293
+2006,11,matchup_Opponent Three Point %,0.013282517669567208
+2006,12,matchup_Points from 2 pointers,0.013062906757837488
+2006,13,matchup_Floor %,0.013009719210979697
+2006,14,matchup_Personal Fouls per Game,0.013000084733872234
+2006,15,matchup_Opponent Free Throws Attempted per Game,0.012646269411419376
+2007,1,matchup_Floor %,0.021452745248597353
+2007,2,matchup_Offensive Efficiency,0.019169188395876856
+2007,3,matchup_Personal Fouls per Defensive Play,0.016968959579179974
+2007,4,matchup_Personal Fouls per Possession,0.01694567175740712
+2007,5,matchup_Average 2nd Half Margin,0.014835763804743694
+2007,6,matchup_Opponent Offensive Rebounding %,0.014200406544111251
+2007,7,matchup_Defensive Rebounding %,0.014018976152293717
+2007,8,matchup_Opponent Defensive Rebounds per Game,0.013925606445923782
+2007,9,matchup_Opponent Free Throws Attempted per Offensive Play,0.013831839782305918
+2007,10,matchup_Opponent Free Throw %,0.013332415485520702
+2007,11,matchup_Points from 2 pointers,0.013152799390351078
+2007,12,matchup_Opponent FTA per FGA,0.012092547775499856
+2007,13,matchup_Field Goals Made per Game,0.012044317862222913
+2007,14,matchup_Opponent Three Point %,0.011818522303593539
+2007,15,matchup_Personal Fouls per Game,0.011442367844766457
+2008,1,matchup_Floor %,0.02168808987696955
+2008,2,matchup_Offensive Efficiency,0.01963765077111653
+2008,3,matchup_Personal Fouls per Defensive Play,0.01782323124032931
+2008,4,matchup_Personal Fouls per Possession,0.01711426622003682
+2008,5,matchup_Opponent Free Throw %,0.014494972772639019
+2008,6,matchup_Average 2nd Half Margin,0.014270312442295593
+2008,7,matchup_Opponent Free Throws Attempted per Offensive Play,0.014125640880277311
+2008,8,matchup_Opponent Offensive Rebounding %,0.013842087358821397
+2008,9,matchup_Defensive Rebounding %,0.01376368076340752
+2008,10,matchup_Points from 2 pointers,0.013748062430241181
+2008,11,matchup_Average Overtime Margin,0.013553853012684337
+2008,12,matchup_Opponent Defensive Rebounds per Game,0.012966719310590853
+2008,13,matchup_Opponent FTA per FGA,0.012886768772866878
+2008,14,matchup_Opponent Three Point %,0.01235346696404552
+2008,15,matchup_Field Goals Made per Game,0.012279173914394186
+2009,1,matchup_Floor %,0.020296521393409143
+2009,2,matchup_Offensive Efficiency,0.016750138712805826
+2009,3,matchup_Personal Fouls per Defensive Play,0.015518692986154136
+2009,4,matchup_Personal Fouls per Possession,0.014956226100606177
+2009,5,matchup_Average 2nd Half Margin,0.014865898744614806
+2009,6,matchup_Opponent Free Throws Attempted per Offensive Play,0.013693793445198823
+2009,7,matchup_Extra Scoring Chances per Game,0.012467916803017348
+2009,8,matchup_Opponent Offensive Rebounding %,0.012402864004297805
+2009,9,matchup_Defensive Rebounding %,0.012332245096709374
+2009,10,matchup_Opponent Free Throw %,0.01220007530956014
+2009,11,matchup_Opponent FTA per FGA,0.012176610489425269
+2009,12,matchup_Effective Possession Ratio,0.011928931129096751
+2009,13,matchup_Steals per Defensive Play,0.011831996119779418
+2009,14,matchup_Average Overtime Margin,0.011824137798386421
+2009,15,matchup_Points from 2 pointers,0.01172820174619719
+2010,1,matchup_Floor %,0.018338727342155976
+2010,2,matchup_Offensive Efficiency,0.015176978462801211
+2010,3,matchup_Personal Fouls per Defensive Play,0.01437602730392187
+2010,4,matchup_Personal Fouls per Possession,0.014279948616079768
+2010,5,matchup_Effective Possession Ratio,0.014139220568356906
+2010,6,matchup_Average 2nd Half Margin,0.013013460536859702
+2010,7,matchup_Extra Scoring Chances per Game,0.012971791774786684
+2010,8,matchup_Assist / Turnover Ratio,0.0123743575280364
+2010,9,matchup_Opponent Free Throw %,0.012373325026718554
+2010,10,matchup_Defensive Rebounding %,0.01233939210786411
+2010,11,matchup_Opponent Free Throws Attempted per Offensive Play,0.012318374072774847
+2010,12,matchup_Opponent Offensive Rebounding %,0.012205916931866933
+2010,13,matchup_Opponent Free Throws Made per Game,0.011793443725796795
+2010,14,matchup_Opponent Team Rebounds per Game,0.011602072059860797
+2010,15,matchup_Turnovers per Offensive Play,0.011558952261459187
+2011,1,matchup_Effective Possession Ratio,0.018295420522472763
+2011,2,matchup_Extra Scoring Chances per Game,0.017048903210350685
+2011,3,matchup_Floor %,0.01663028785038476
+2011,4,matchup_Steals per Defensive Play,0.014020719496378163
+2011,5,matchup_Opponent Steals per Defensive Play,0.014002106090173843
+2011,6,matchup_Steals per Possession,0.013591774934571888
+2011,7,matchup_Offensive Efficiency,0.01343914519091793
+2011,8,matchup_Assist / Turnover Ratio,0.013216509643962815
+2011,9,matchup_Opponent Steals per Game,0.012846996794063467
+2011,10,matchup_Turnovers per Offensive Play,0.012050262895533185
+2011,11,matchup_Defensive Rebounding %,0.012007317520951721
+2011,12,matchup_Opponent Offensive Rebounding %,0.011945630936889278
+2011,13,matchup_Opponent Defensive Rebounds per Game,0.011803017567281998
+2011,14,matchup_Personal Fouls per Defensive Play,0.011716534341887396
+2011,15,matchup_Opponent Free Throws Attempted per Offensive Play,0.011578999765317673
+2012,1,matchup_Extra Scoring Chances per Game,0.01804454696637657
+2012,2,matchup_Effective Possession Ratio,0.01760709819533234
+2012,3,matchup_Floor %,0.017585173978920017
+2012,4,matchup_Opponent Steals per Defensive Play,0.013762123873250064
+2012,5,matchup_Offensive Efficiency,0.013661717484553458
+2012,6,matchup_Opponent Free Throws Attempted per Offensive Play,0.013220161479459423
+2012,7,matchup_Opponent Free Throws Attempted per Game,0.013187802791078979
+2012,8,matchup_Assist / Turnover Ratio,0.01279001337430419
+2012,9,matchup_Opponent Steals per Game,0.01276299725382588
+2012,10,matchup_Opponent Defensive Rebounds per Game,0.01210861197689995
+2012,11,matchup_Steals per Defensive Play,0.012086323785295165
+2012,12,matchup_Personal Fouls per Defensive Play,0.012071081849098943
+2012,13,matchup_Opponent Free Throws Made per Game,0.012029205630627473
+2012,14,matchup_Opponent Offensive Rebounds per Game,0.01183590755953304
+2012,15,matchup_Personal Fouls per Possession,0.011759177465919509
+2013,1,matchup_Extra Scoring Chances per Game,0.01861100023798877
+2013,2,matchup_Effective Possession Ratio,0.01608860680621179
+2013,3,matchup_Steals per Defensive Play,0.014321207612151523
+2013,4,matchup_Opponent Floor %,0.013467228982692557
+2013,5,matchup_Opponent Three Point %,0.013325413067308722
+2013,6,matchup_Steals per Possession,0.013241704244536634
+2013,7,matchup_Assist / Turnover Ratio,0.01245115573145455
+2013,8,matchup_Opponent Free Throws Attempted per Game,0.011752622578092299
+2013,9,matchup_Opponent Steals per Defensive Play,0.011530921368639232
+2013,10,matchup_Opponent Team Rebounds per Game,0.011497651013488737
+2013,11,matchup_Defensive Efficiency,0.011463167005425191
+2013,12,matchup_Floor %,0.011442570450353838
+2013,13,matchup_Opponent Free Throws Made per Game,0.011179065690155492
+2013,14,matchup_Opponent Free Throws Attempted per Offensive Play,0.011133159483672295
+2013,15,matchup_Personal Fouls per Possession,0.010892287370840732
+2014,1,matchup_Extra Scoring Chances per Game,0.016116834995667403
+2014,2,matchup_Effective Possession Ratio,0.015294898889075112
+2014,3,matchup_Personal Fouls per Possession,0.015081981774038909
+2014,4,matchup_Steals per Defensive Play,0.014553462379464041
+2014,5,matchup_Personal Fouls per Defensive Play,0.013867748568264041
+2014,6,matchup_Steals per Possession,0.013645721813310797
+2014,7,matchup_Opponent Three Point %,0.013562248553135425
+2014,8,matchup_Opponent Floor %,0.012658893265700053
+2014,9,matchup_Floor %,0.012493686256328278
+2014,10,matchup_Opponent Free Throws Attempted per Game,0.011253008473976419
+2014,11,matchup_Opponent Free Throws Made per Game,0.0109896875393636
+2014,12,matchup_Opponent Defensive Rebounds per Game,0.010933287965188344
+2014,13,matchup_Personal Fouls per Game,0.010843358226261752
+2014,14,matchup_Opponent Free Throws Attempted per Offensive Play,0.010801981735826593
+2014,15,matchup_Defensive Efficiency,0.010495939602047625
+2015,1,matchup_Personal Fouls per Possession,0.015908531083148766
+2015,2,matchup_Opponent Floor %,0.015748584589364012
+2015,3,matchup_Effective Possession Ratio,0.014768253418672156
+2015,4,matchup_Personal Fouls per Defensive Play,0.0145999399462304
+2015,5,matchup_Extra Scoring Chances per Game,0.013825484723425478
+2015,6,matchup_Opponent Three Point %,0.01300581344896198
+2015,7,matchup_Steals per Defensive Play,0.012410331749151052
+2015,8,matchup_Floor %,0.012343464182262284
+2015,9,matchup_Steals per Possession,0.01185569976337968
+2015,10,matchup_Opponent Team Rebounds per Game,0.011791421029504815
+2015,11,matchup_Opponent Free Throws Attempted per Game,0.01142197456645348
+2015,12,matchup_Personal Fouls per Game,0.011376003712449123
+2015,13,matchup_Defensive Efficiency,0.011098000015369907
+2015,14,matchup_Opponent Free Throws Attempted per Offensive Play,0.010942230028820752
+2015,15,matchup_Opponent Free Throws Made per Game,0.010925650931853183
+2016,1,matchup_Opponent Floor %,0.014977278679187989
+2016,2,matchup_Personal Fouls per Possession,0.014355083384466151
+2016,3,matchup_Opponent Three Point %,0.01357231194561313
+2016,4,matchup_Effective Possession Ratio,0.013375937118804455
+2016,5,matchup_Personal Fouls per Defensive Play,0.013278755771294741
+2016,6,matchup_Steals per Defensive Play,0.012142579408321533
+2016,7,matchup_Steals per Possession,0.011688170312211544
+2016,8,matchup_Extra Scoring Chances per Game,0.0116553653240001
+2016,9,matchup_Floor %,0.011514659843138568
+2016,10,matchup_Opponent Team Rebounds per Game,0.011227339794353709
+2016,11,matchup_Points from 2 pointers,0.010939818281527442
+2016,12,matchup_Defensive Efficiency,0.010913676782690205
+2016,13,matchup_Opponent Steals per Possession,0.010702713468178212
+2016,14,matchup_Opponent Steals per Defensive Play,0.010659406437439768
+2016,15,matchup_Assist / Turnover Ratio,0.010509827824325463
+2017,1,matchup_Steals per Defensive Play,0.015113194932985385
+2017,2,matchup_Steals per Possession,0.014378948673650523
+2017,3,matchup_Opponent Floor %,0.014282623951623892
+2017,4,matchup_Personal Fouls per Possession,0.012393247056407528
+2017,5,matchup_Opponent Three Point %,0.012247608025447323
+2017,6,matchup_Personal Fouls per Defensive Play,0.012089297358190556
+2017,7,matchup_Assist / Turnover Ratio,0.01199420599797513
+2017,8,matchup_Floor %,0.01170339738763178
+2017,9,matchup_Opponent Team Rebounds per Game,0.011525924100807675
+2017,10,matchup_Steals per Game,0.011500054401976446
+2017,11,matchup_Average 2nd Half Margin,0.011104134118372832
+2017,12,matchup_Effective Possession Ratio,0.011022761627155825
+2017,13,matchup_Extra Scoring Chances per Game,0.010808412376323486
+2017,14,matchup_Defensive Efficiency,0.01069817582038834
+2017,15,matchup_Opponent Average Scoring Margin,0.010615840046480201
+2018,1,matchup_Steals per Defensive Play,0.015422354831979653
+2018,2,matchup_Steals per Possession,0.014760474597464757
+2018,3,matchup_Opponent Floor %,0.01435793441710169
+2018,4,matchup_Assist / Turnover Ratio,0.012800417239481962
+2018,5,matchup_Opponent Three Point %,0.012411878870189188
+2018,6,matchup_Personal Fouls per Possession,0.01238436575280538
+2018,7,matchup_Personal Fouls per Defensive Play,0.011925514467343943
+2018,8,matchup_Steals per Game,0.011890551465642064
+2018,9,matchup_Floor %,0.01171956181356027
+2018,10,matchup_Average 2nd Half Margin,0.01133562259993247
+2018,11,matchup_Opponent Team Rebounds per Game,0.01118967527904756
+2018,12,matchup_Effective Possession Ratio,0.011154752838878115
+2018,13,matchup_Extra Scoring Chances per Game,0.010774124002862215
+2018,14,matchup_Defensive Efficiency,0.010609858516192122
+2018,15,matchup_Opponent Average Scoring Margin,0.01046934610973043
+2019,1,matchup_Steals per Defensive Play,0.014936290766139273
+2019,2,matchup_Steals per Possession,0.014525677249800735
+2019,3,matchup_Assist / Turnover Ratio,0.013309567856246828
+2019,4,matchup_Opponent Floor %,0.013111359524626576
+2019,5,matchup_Steals per Game,0.012852828436256217
+2019,6,matchup_Opponent Three Point %,0.012382875903209576
+2019,7,matchup_Opponent Defensive Rebounds per Game,0.011859940880555173
+2019,8,matchup_Effective Possession Ratio,0.011441595336683793
+2019,9,matchup_Free Throw %,0.011192525911251399
+2019,10,matchup_Floor %,0.011078093828997354
+2019,11,matchup_Personal Fouls per Possession,0.01103768622577385
+2019,12,matchup_Personal Fouls per Defensive Play,0.010770045091304383
+2019,13,matchup_Opponent Team Rebounds per Game,0.010756841012062583
+2019,14,matchup_Opponent Total Rebounds per Game,0.010684563260545054
+2019,15,matchup_Opponent Offensive Rebounds per Game,0.01059439689180117
+2021,1,matchup_Steals per Defensive Play,0.014170852240094256
+2021,2,matchup_Steals per Possession,0.013728841364813425
+2021,3,matchup_Opponent Floor %,0.012950126051843251
+2021,4,matchup_Floor %,0.012690764755144671
+2021,5,matchup_Assist / Turnover Ratio,0.012554075785413153
+2021,6,matchup_Steals per Game,0.012100098455235813
+2021,7,matchup_Opponent Three Point %,0.011942905291316615
+2021,8,matchup_Effective Possession Ratio,0.011596613734275328
+2021,9,matchup_Opponent Defensive Rebounds per Game,0.011468643846700145
+2021,10,matchup_Opponent Team Rebounds per Game,0.011331216682316486
+2021,11,matchup_Free Throw %,0.011237715503394315
+2021,12,matchup_Field Goals Made per Game,0.011132058972730985
+2021,13,matchup_Opponent Offensive Rebounds per Game,0.011071764088132381
+2021,14,matchup_Opponent Steals per Possession,0.010907524031161818
+2021,15,matchup_Personal Fouls per Possession,0.0105314012858848
+2022,1,matchup_Steals per Defensive Play,0.014119538667747499
+2022,2,matchup_Steals per Possession,0.013854994232912402
+2022,3,matchup_Opponent Floor %,0.013279665967283787
+2022,4,matchup_Steals per Game,0.013194283570170847
+2022,5,matchup_Field Goals Made per Game,0.013109438577831518
+2022,6,matchup_Assist / Turnover Ratio,0.012371573921740096
+2022,7,matchup_Floor %,0.01222068705932245
+2022,8,matchup_Points per Game,0.012078447669290641
+2022,9,matchup_Field Goals Attempted per Game,0.011557102145193026
+2022,10,matchup_Opponent Turnovers per Possession,0.01142589869287841
+2022,11,matchup_Opponent Turnovers per Game,0.011188412984668415
+2022,12,matchup_Opponent Offensive Rebounds per Game,0.011011205253256136
+2022,13,matchup_Effective Possession Ratio,0.010870963599978481
+2022,14,matchup_Opponent Team Rebounds per Game,0.010842627828292999
+2022,15,matchup_Opponent Defensive Rebounds per Game,0.010816941461314178
+2023,1,matchup_Steals per Possession,0.013503578121473387
+2023,2,matchup_Steals per Defensive Play,0.013499166047312546
+2023,3,matchup_Opponent Floor %,0.013357891275037899
+2023,4,matchup_Steals per Game,0.012851784924816914
+2023,5,matchup_Assist / Turnover Ratio,0.012432598565206714
+2023,6,matchup_Floor %,0.012020276286976033
+2023,7,matchup_Points per Game,0.011986916821393804
+2023,8,matchup_Field Goals Made per Game,0.011984946327083803
+2023,9,matchup_Field Goals Attempted per Game,0.011742356562468756
+2023,10,matchup_Opponent Turnovers per Possession,0.011667504946629482
+2023,11,matchup_Opponent Turnovers per Game,0.011433207781410165
+2023,12,matchup_Opponent Offensive Rebounds per Game,0.01138826198353573
+2023,13,matchup_Personal Fouls per Defensive Play,0.011145594484201084
+2023,14,matchup_Personal Fouls per Possession,0.011142110792342173
+2023,15,matchup_Opponent Team Rebounds per Game,0.01103313087311141
+2024,1,matchup_Field Goals Attempted per Game,0.014386289182045143
+2024,2,matchup_Field Goals Made per Game,0.01409368964926631
+2024,3,matchup_Points per Game,0.013693026985638115
+2024,4,matchup_Steals per Possession,0.01294262652139878
+2024,5,matchup_Steals per Defensive Play,0.012874054780135456
+2024,6,matchup_Steals per Game,0.012450142869816003
+2024,7,matchup_Opponent Floor %,0.01229263283090946
+2024,8,matchup_Assist / Turnover Ratio,0.011708385255339149
+2024,9,matchup_2nd Half Points per Game,0.011608503169718879
+2024,10,matchup_Opponent Turnovers per Game,0.011439218891587591
+2024,11,matchup_Opponent Offensive Rebounds per Game,0.011349235637744112
+2024,12,matchup_Opponent Turnovers per Possession,0.01100769363017407
+2024,13,matchup_Effective Possession Ratio,0.010985265604998223
+2024,14,matchup_Floor %,0.010885837759471387
+2024,15,matchup_Personal Fouls per Defensive Play,0.010808240241661597
+2025,1,matchup_Field Goals Attempted per Game,0.014324926733899304
+2025,2,matchup_Field Goals Made per Game,0.013862524568561246
+2025,3,matchup_Points per Game,0.012799792096996235
+2025,4,matchup_Steals per Possession,0.012509077279318437
+2025,5,matchup_Steals per Defensive Play,0.01240046810881548
+2025,6,matchup_Steals per Game,0.012074833880746295
+2025,7,matchup_Opponent Floor %,0.011666293066746672
+2025,8,matchup_Personal Fouls per Possession,0.011439312290561493
+2025,9,matchup_Opponent Offensive Rebounds per Game,0.011372854653325055
+2025,10,matchup_Assist / Turnover Ratio,0.011371012199474883
+2025,11,matchup_Effective Possession Ratio,0.01125840413754838
+2025,12,matchup_Personal Fouls per Defensive Play,0.01105429152197874
+2025,13,matchup_2nd Half Points per Game,0.010962081084746438
+2025,14,matchup_Opponent Turnovers per Game,0.01089067168783344
+2025,15,matchup_Opponent Steals per Possession,0.010675237329200612
