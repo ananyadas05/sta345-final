@@ -1,0 +1,43 @@
+target_year,selection,wteam_school,lteam_school,wteam_seed,lteam_seed,is_upset,tau_used,selection_count,combos_in_P
+2004,1,NC State,Louisiana,3,14,False,1,912,1365
+2004,2,Maryland,UTEP,4,13,False,1,649,1365
+2005,1,Washington,Montana,1,16,False,1,742,1365
+2005,2,North Carolina,Oakland,1,16,False,1,525,1365
+2006,1,Memphis,Oral Roberts,1,16,False,1,860,1365
+2006,2,Illinois,Air Force,4,13,False,1,657,1365
+2007,1,S Illinois,Holy Cross,4,13,False,1,16,24
+2007,2,Georgetown,Belmont,2,15,False,1,10,24
+2008,1,Siena,Vanderbilt,13,4,True,1,554,1365
+2008,2,Kansas,Portland St,1,16,False,1,421,1365
+2009,1,Pittsburgh,E Tennessee St,1,16,False,1,133,190
+2009,2,Kansas,N Dakota St,3,14,False,1,102,190
+2010,1,New Mexico,Montana,3,14,False,1,41,64
+2010,2,Ohio,Georgetown,14,3,True,1,35,64
+2011,1,BYU,Wofford,3,14,False,1,2,4
+2011,2,UConn,Bucknell,3,14,False,1,2,4
+2012,1,Indiana,New Mexico St,4,13,False,2,5,9
+2012,2,Ohio St,Loyola MD,2,15,False,2,4,9
+2013,1,Kansas,W Kentucky,1,16,False,1,21,32
+2013,2,Marquette,Davidson,3,14,False,1,20,32
+2014,1,Michigan,Wofford,2,15,False,1,84,89
+2014,2,Kansas,E Kentucky,2,15,False,1,42,89
+2015,1,Georgia St,Baylor,14,3,True,1,21,31
+2015,2,North Carolina,Harvard,4,13,False,1,19,31
+2016,1,Oklahoma,CS Bakersfield,2,15,False,2,7,9
+2016,2,SF Austin,West Virginia,14,3,True,2,7,9
+2017,1,Purdue,Vermont,4,13,False,5,23,33
+2017,2,Arizona,North Dakota,2,15,False,5,19,33
+2018,1,Buffalo,Arizona,13,4,True,1,1,1
+2018,2,Marshall,Wichita St,13,4,True,1,1,1
+2019,1,Kentucky,Abl Christian,2,15,False,1,5,5
+2019,2,Houston,Georgia St,3,14,False,1,3,5
+2021,1,Michigan,Texas So,1,16,False,1,5,5
+2021,2,Oral Roberts,Ohio St,15,2,True,1,3,5
+2022,1,Illinois,Chattanooga,4,13,False,4,32,48
+2022,2,Tennessee,Longwood,3,14,False,4,29,48
+2023,1,Indiana,Kent St,4,13,False,2,4,4
+2023,2,Princeton,Arizona,15,2,True,2,3,4
+2024,1,Purdue,Grambling,1,16,False,2,17,22
+2024,2,Alabama,Charleston,4,13,False,2,12,22
+2025,1,Michigan St,Bryant,2,15,False,2,34,90
+2025,2,Purdue,High Point,4,13,False,2,34,90
