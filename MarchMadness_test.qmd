@@ -14,7 +14,7 @@ library(tidyr)
 files <- list.files("March Madness Regular Season Data", pattern = "\\.csv$", full.names = TRUE)
 
 
-regular_season_df <- files |>
+regular_season_df_26 <- files |>
   lapply(function(f) read_csv(f, col_types = cols(.default = "c"))) |>
   bind_rows()
 ```
@@ -26,7 +26,7 @@ list.files("March Madness Regular Season Data")
 ```
 
 ```{r}
-tourney_result <- read_csv("tourney_results_mod_through_2025.csv")
+tourney_result_26 <- read_csv("tourney_results_mod_through_2026.csv")
 ```
 
 ```{r}
@@ -75,21 +75,21 @@ lower_better <- c(
   # Opponent Defensive Rebounding % is bad for you
   "Opponent Defensive Rebounding %"
 )
-lower_better[!lower_better %in% names(regular_season_df)]
+lower_better[!lower_better %in% names(regular_season_df_26)]
 
 ```
 
 ```{r}
-regular_season_unique <- regular_season_df |>
+regular_season_unique_26 <- regular_season_df_26 |>
   distinct(school, year, .keep_all = TRUE)
 
-stat_cols <- regular_season_unique |>
+stat_cols <- regular_season_unique_26 |>
   select(-school, -year) |>
   names()
 ```
 
 ```{r}
-team_season_ranks <- regular_season_unique |>
+team_season_ranks_26 <- regular_season_unique_26 |>
   group_by(year) |>
   mutate(
     # Stats where higher is better
@@ -114,7 +114,7 @@ team_season_ranks <- regular_season_unique |>
 ```
 
 ```{r}
-regular_season_unique %>%
+regular_season_unique_26 %>%
   count(school, year) %>%
   filter(n > 1) %>%
   arrange(desc(n))
@@ -123,7 +123,7 @@ regular_season_unique %>%
 round of 64 games we are looking at
 
 ```{r}
-top_vs_bottom_round64 <- tourney_result |>
+top_vs_bottom_round64_26 <- tourney_result_26 |>
   mutate(
     low_seed  = pmin(wteam_seed, lteam_seed),
     high_seed = pmax(wteam_seed, lteam_seed)
@@ -140,24 +140,24 @@ top_vs_bottom_round64 <- tourney_result |>
 ```{r}
 library(tidyr)
 # Check team name matches
-teams_in_tourney <- top_vs_bottom_round64 |>
+teams_in_tourney_26 <- top_vs_bottom_round64_26 |>
   select(wteam_school, lteam_school) |>
   pivot_longer(everything(), values_to = "team") |>
   distinct(team) |>
   pull(team)
 
-teams_in_rankings <- team_season_ranks |>
+teams_in_rankings_26 <- team_season_ranks_26 |>
   distinct(school) |>
   pull(school)
 
 # Find tournament teams not in rankings
-missing_from_rankings <- setdiff(teams_in_tourney, teams_in_rankings)
+missing_from_rankings_26 <- setdiff(teams_in_tourney_26, teams_in_rankings_26)
 print("Teams in tournament but not in rankings:")
-print(missing_from_rankings)
+print(missing_from_rankings_26)
 
 # Find which years these teams appear in
-top_vs_bottom_round64 |>
-  filter(wteam_school %in% missing_from_rankings | lteam_school %in% missing_from_rankings) |>
+top_vs_bottom_round64_26 |>
+  filter(wteam_school %in% missing_from_rankings_26 | lteam_school %in% missing_from_rankings_26) |>
   select(season, wteam_school, lteam_school) |>
   arrange(season)
 ```
@@ -259,7 +259,7 @@ name_fixes <- tribble(
 )
 
 # Apply the fixes
-top_vs_bottom_round64_fixed <- top_vs_bottom_round64 |>
+top_vs_bottom_round64_fixed_26 <- top_vs_bottom_round64_26 |>
   left_join(name_fixes, by = c("wteam_school" = "tourney_name")) |>
   mutate(wteam_school = coalesce(ranking_name, wteam_school)) |>
   select(-ranking_name) |>
@@ -268,43 +268,43 @@ top_vs_bottom_round64_fixed <- top_vs_bottom_round64 |>
   select(-ranking_name)
 
 # Verify the fixes worked
-teams_in_tourney_fixed <- unique(c(
-  top_vs_bottom_round64_fixed$wteam_school,
-  top_vs_bottom_round64_fixed$lteam_school
+teams_in_tourney_fixed_26 <- unique(c(
+  top_vs_bottom_round64_fixed_26$wteam_school,
+  top_vs_bottom_round64_fixed_26$lteam_school
 ))
 
-missing_after_fix <- setdiff(teams_in_tourney_fixed, teams_in_rankings)
+missing_after_fix_26 <- setdiff(teams_in_tourney_fixed_26, teams_in_rankings_26)
 print("Teams still missing after fixes:")
-print(missing_after_fix)
+print(missing_after_fix_26)
 
 # Also check if there are still mismatches
-print(paste("Number of mismatches remaining:", length(missing_after_fix)))
+print(paste("Number of mismatches remaining:", length(missing_after_fix_26)))
 ```
 
 ```{r}
 
 # Filter to only years with available data (2000+)
-top_vs_bottom_round64_filtered <- top_vs_bottom_round64_fixed |>
+top_vs_bottom_round64_filtered_26 <- top_vs_bottom_round64_fixed_26 |>
   filter(season >= 2000)
 
 # Convert year to numeric in team_season_ranks
-team_season_ranks <- team_season_ranks |>
+team_season_ranks_26 <- team_season_ranks_26 |>
   mutate(year = as.numeric(year))
 
 # Now create matchup statistics with the filtered data
-matchup_stats <- top_vs_bottom_round64_filtered |>
+matchup_stats_26 <- top_vs_bottom_round64_filtered_26 |>
   left_join(
-    team_season_ranks,
+    team_season_ranks_26,
     by = c("wteam_school" = "school", "season" = "year")
   ) |>
   left_join(
-    team_season_ranks,
+    team_season_ranks_26,
     by = c("lteam_school" = "school", "season" = "year"),
     suffix = c("_winner", "_loser")
   )
 
 # Identify which team is lower-seeded and which is higher-seeded
-matchup_stats <- matchup_stats |>
+matchup_stats_26 <- matchup_stats_26 |>
   mutate(
     is_upset = (wteam_seed > lteam_seed),
     lower_seed_team = if_else(wteam_seed > lteam_seed, "winner", "loser"),
@@ -313,18 +313,18 @@ matchup_stats <- matchup_stats |>
 
 # Calculate matchup statistics (lower seed rank - higher seed rank)
 # Get all stat column names
-stat_cols_winner <- grep("_winner$", names(matchup_stats), value = TRUE)
+stat_cols_winner_26 <- grep("_winner$", names(matchup_stats_26), value = TRUE)
 
 # Remove the suffixes to get base stat names
-base_stat_names <- sub("_winner$", "", stat_cols_winner)
+base_stat_names_26 <- sub("_winner$", "", stat_cols_winner_26)
 
 # Create matchup stat columns
-for (stat in base_stat_names) {
+for (stat in base_stat_names_26) {
   winner_col <- paste0(stat, "_winner")
   loser_col <- paste0(stat, "_loser")
   matchup_col <- paste0("matchup_", stat)
   
-  matchup_stats <- matchup_stats |>
+  matchup_stats_26 <- matchup_stats_26 |>
     mutate(
       !!matchup_col := if_else(
         lower_seed_team == "winner",
@@ -335,7 +335,7 @@ for (stat in base_stat_names) {
 }
 
 # Select relevant columns for analysis
-matchup_stats_clean <- matchup_stats |>
+matchup_stats_clean_26 <- matchup_stats_26 |>
   select(
     season,
     wteam_school,
@@ -348,23 +348,23 @@ matchup_stats_clean <- matchup_stats |>
   )
 
 # View the result
-head(matchup_stats_clean)
+head(matchup_stats_clean_26)
 
 # Check for any missing values
-missing_summary <- matchup_stats_clean |>
+missing_summary_26 <- matchup_stats_clean_26 |>
   summarise(across(starts_with("matchup_"), ~sum(is.na(.))))
 
 print("Missing values per matchup statistic:")
-print(t(missing_summary))
+print(t(missing_summary_26))
 
 # Save the dataset
-write_csv(matchup_stats_clean, "matchup_statistics.csv")
+write_csv(matchup_stats_clean_26, "matchup_statistics.csv")
 
-print(paste("Total games:", nrow(matchup_stats_clean)))
-print(paste("Total upsets:", sum(matchup_stats_clean$is_upset)))
-print(paste("Upset percentage:", round(100 * mean(matchup_stats_clean$is_upset), 1), "%"))
+print(paste("Total games:", nrow(matchup_stats_clean_26)))
+print(paste("Total upsets:", sum(matchup_stats_clean_26$is_upset)))
+print(paste("Upset percentage:", round(100 * mean(matchup_stats_clean_26$is_upset), 1), "%"))
 ```
 
 ```{r}
-write.csv(matchup_stats_clean, "/Users/ananyadas/sta345-final/matchupstats_original.csv")
+write.csv(matchup_stats_clean_26, "/Users/samhamelsky/Desktop/sta345-final/matchupstats_original_26.csv")
 ```
