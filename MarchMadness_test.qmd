@@ -366,5 +366,5 @@ print(paste("Upset percentage:", round(100 * mean(matchup_stats_clean_26$is_upse
 ```
 
 ```{r}
-write.csv(matchup_stats_clean_26, "/Users/samhamelsky/Desktop/sta345-final/matchupstats_original_26.csv")
+write.csv(matchup_stats_clean_26, "~/Desktop/sta345-final/matchupstats_original_26.csv")
 ```
