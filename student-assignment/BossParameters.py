@@ -1,9 +1,5 @@
 """
-BossParameters.py
-
-Combined pipeline for NCAA upset prediction, based on:
-  Dutta, Jacobson, Sauppe (2017) - "Identifying NCAA tournament upsets using
-  Balance Optimization Subset Selection"
+Combined pipeline for NCAA upset prediction, based on
 
 Step 1: Use a random forest (Extra-Trees) to find the most predictive statistics
 Step 2: Use BOSS to find current-year games that look most like historical upsets
@@ -20,12 +16,10 @@ from itertools import combinations
 from pathlib import Path
 from collections import Counter
 
-# =============================================================================
 # PARAMETERS - change these to experiment
-# =============================================================================
 
-# How many of the top statistics to keep after the Extra-Trees step.
-# The paper used 15. Try 10 or 20 to see if it matters.
+# How many of the top statistics to keep after the extra-trees step.
+# The paper used 15. 
 TOP_N_FEATURES = 15
 
 # How many statistics to use in each BOSS combination.
@@ -64,16 +58,12 @@ N_TREES = 100_000
 # Random seed for reproducibility.
 RANDOM_STATE = 42
 
-# =============================================================================
-# File paths - adjust if your files are in a different location
-# =============================================================================
+# file paths:
 
 DATA_PATH = Path(__file__).parent / "matchupstats_original.csv"
 OUT_PATH = Path(__file__).parent / "boss_selections.csv"
 
-# =============================================================================
-# Load and filter data
-# =============================================================================
+# load and filter data:
 
 data = pd.read_csv(DATA_PATH)
 data = data[data["round"] == 64].copy()
@@ -87,11 +77,9 @@ print()
 
 all_years = sorted(data["season"].unique())
 
-# =============================================================================
-# Step 1: Extra-Trees feature selection (leave-one-year-out)
+# Step 1: Extra-Trees feature selection
 # For each target year, train only on prior years to avoid using future data.
 # Ranks all 115 statistics by how useful they are for predicting upsets.
-# =============================================================================
 
 top_features_by_year = {}
 
@@ -120,11 +108,9 @@ for target_year in all_years:
 
 print()
 
-# =============================================================================
 # Balance measure functions
 # These measure how similar two groups of games look across a set of statistics.
 # Lower M(G) means the control group looks more like the treatment group.
-# =============================================================================
 
 def ks_statistic(a, b):
     # KS statistic: max vertical distance between the two empirical distributions
@@ -149,11 +135,9 @@ def balance_measure(treatment, control, features):
         total += max(ks_statistic(t, g), relative_difference(t, g))
     return total
 
-# =============================================================================
 # Step 2 and 3: BOSS + tau tuning
 # For each year, find current games that look most like historical upsets,
 # then use historical performance to decide which stat combinations to trust.
-# =============================================================================
 
 boss_results = {}
 combo_history = {}
@@ -296,9 +280,7 @@ for target_year in all_years:
               f"{row['wteam_school']} (#{row['wteam_seed']}) | "
               f"actual upset: {actual_upset} | tau: {best_tau}")
 
-# =============================================================================
 # Save and summarize
-# =============================================================================
 
 out_df = pd.DataFrame(final_selections)
 out_df.to_csv(OUT_PATH, index=False)
