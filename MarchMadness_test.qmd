@@ -26,7 +26,7 @@ list.files("March Madness Regular Season Data")
 ```
 
 ```{r}
-tourney_result_26 <- read_csv("tourney_results_mod_through_2026.csv")
+tourney_result_26 <- read_csv("tourney_results_mod_through_2026_final.csv")
 ```
 
 ```{r}
@@ -255,7 +255,10 @@ name_fixes <- tribble(
   "Gardner Webb", "Gardner-Webb",
   "VA Tech", "Virginia Tech",
   "Kennesaw", "Kennesaw St",
-  "UNC Wilmington", "NC Wilmington"
+  "UNC Wilmington", "NC Wilmington",
+  "Long Island", "LIU",
+  "Queens NC", "Queens",
+  "Tennessee State", "Tennessee St" 
 )
 
 # Apply the fixes

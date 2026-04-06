@@ -1,24 +1,3 @@
-"""
-boss.py
-
-Implements the BOSS (Balance Optimization Subset Selection) step from:
-  Dutta, Jacobson, Sauppe (2017) - "Identifying NCAA tournament upsets using
-  Balance Optimization Subset Selection"
-
-Requires top15_by_year.csv produced by decision_trees.py.
-
-Pipeline per target year Y:
-  - Treatment group: all is_upset == True games from years < Y
-  - Control pool:    all round-of-64 games in year Y where lteam_seed or wteam_seed is 13-16
-  - Top-15 features: from year Y's leave-one-year-out Extra-Trees run
-  - For each of the 1365 combinations of 4 from the top-15:
-      enumerate all size-3 subsets of the control pool
-      select the subset G that minimizes balance measure M(G)
-  - Track each combination's historical performance
-  - Use tau tuning to select high-performing combinations
-  - Final output: 2 games most frequently selected across high-performing combos
-"""
-
 import pandas as pd
 import numpy as np
 from itertools import combinations
@@ -31,7 +10,7 @@ from collections import Counter
 
 DATA_PATH     = Path(__file__).parent / "matchupstats_original_26.csv"
 TOP15_PATH    = Path(__file__).parent / "top15_by_year_26.csv"
-OUT_PATH      = Path(__file__).parent / "boss_selections_26.csv"
+OUT_PATH      = Path(__file__).parent / "boss_selections_16seed_test.csv"
 
 ROUND_OF_64   = 64
 UPSET_SEEDS   = {13, 14, 15, 16}
@@ -121,7 +100,7 @@ def run_boss(treatment_df, control_pool_df, features):
 
 # We need at least a few upset years before we can form a treatment group.
 # Paper starts at 2001 (upsets from 1998-2000 form the first treatment group).
-all_years = sorted(matchupstats_original_26["season"].unique())
+all_years = sorted(y for y in matchupstats_original_26["season"].unique() if y <= 2015)
 
 # boss_results[year][combo] = list of 3 selected game indices
 boss_results = {}

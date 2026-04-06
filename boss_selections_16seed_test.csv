@@ -1,0 +1,25 @@
+target_year,selection,wteam_school,lteam_school,wteam_seed,lteam_seed,is_upset,tau_used,selection_count,combos_in_P
+2004,1,NC State,Louisiana,3,14,False,1,912,1365
+2004,2,Maryland,UTEP,4,13,False,1,649,1365
+2005,1,Washington,Montana,1,16,False,1,742,1365
+2005,2,North Carolina,Oakland,1,16,False,1,525,1365
+2006,1,Memphis,Oral Roberts,1,16,False,1,860,1365
+2006,2,Illinois,Air Force,4,13,False,1,657,1365
+2007,1,S Illinois,Holy Cross,4,13,False,1,16,24
+2007,2,Georgetown,Belmont,2,15,False,1,10,24
+2008,1,Siena,Vanderbilt,13,4,True,1,554,1365
+2008,2,Kansas,Portland St,1,16,False,1,421,1365
+2009,1,Pittsburgh,E Tennessee St,1,16,False,1,133,190
+2009,2,Kansas,N Dakota St,3,14,False,1,102,190
+2010,1,New Mexico,Montana,3,14,False,1,41,64
+2010,2,Ohio,Georgetown,14,3,True,1,35,64
+2011,1,BYU,Wofford,3,14,False,1,2,4
+2011,2,UConn,Bucknell,3,14,False,1,2,4
+2012,1,Indiana,New Mexico St,4,13,False,2,5,9
+2012,2,Ohio St,Loyola MD,2,15,False,2,4,9
+2013,1,Kansas,W Kentucky,1,16,False,1,21,32
+2013,2,Marquette,Davidson,3,14,False,1,20,32
+2014,1,Michigan,Wofford,2,15,False,1,84,89
+2014,2,Kansas,E Kentucky,2,15,False,1,42,89
+2015,1,Georgia St,Baylor,14,3,True,1,21,31
+2015,2,North Carolina,Harvard,4,13,False,1,19,31
