@@ -60,8 +60,8 @@ RANDOM_STATE = 42
 
 # file paths:
 
-DATA_PATH = Path(__file__).parent / "matchupstats_original.csv"
-OUT_PATH = Path(__file__).parent / "boss_selections.csv"
+DATA_PATH = Path(__file__).parent / "matchupstats_original_26.csv"
+OUT_PATH = Path(__file__).parent / "boss_selections_26.csv"
 
 # load and filter data:
 
