@@ -6,7 +6,7 @@ format: pdf
 
 ## 
 
-## Introduction 
+## Introduction
 
 Each year, the NCAA Men’s Basketball Tournament attracts millions of fans who try to predict the outcome of the bracket. First round upsets remain one of the hardest parts of the tournament to predict and frequently are the cause of incorrect brackets. Only a small number of tournament games are played each season and the event is single elimination making upset predictions a difficult statistical problem. 
 
@@ -14,7 +14,7 @@ This project examines a framework introduced in the paper Identifying March Madn
 
 Our goal is to replicate and extend the original study using NCAA tournament data through 2026. In addition to reproducing the core BOSS framework, we evaluate how the model performs when expanded to include 16-seed matchups.
 
-## Original Paper 
+## Original Paper
 
 The original paper: <https://www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html>
 
@@ -45,3 +45,17 @@ For each tournament matchup, a matchup statistic was then calculated as:
 This transformation standardizes variables across seasons and places all statistics on a comparable scale. Positive values indicate that the favored team performed better in that category, while negative values indicate that the underdog performed better.
 
 After computing these ranking differences for every variable, the final dataset contained one row per tournament game and included all 115 engineered matchup statistics for contests between 1 vs 16, 2 vs 15, 3 vs 14, and 4 vs 13 seeds across all seasons in our sample.
+
+# Modeling Approach
+
+text
+
+# Results
+
+text
+
+# Additional Approach
+
+text
+
+# Limitations and Conclusions
