@@ -1,5 +1,5 @@
 ---
-title: "Identifying March Madness Upsets with BOSS"
+title: "Identifying March Madness Upsets with BOSS Final Report"
 author: "Sam Hamelsky and Ananya Das"
 format: pdf
 ---
@@ -44,11 +44,94 @@ For each tournament matchup, a matchup statistic was then calculated as:
 
 This transformation standardizes variables across seasons and places all statistics on a comparable scale. Positive values indicate that the favored team performed better in that category, while negative values indicate that the underdog performed better.
 
-After computing these ranking differences for every variable, the final dataset contained one row per tournament game and included all 115 engineered matchup statistics for contests between 1 vs 16, 2 vs 15, 3 vs 14, and 4 vs 13 seeds across all seasons in our sample.
+After computing these ranking differences for every variable, the final dataset contained one row per tournament game and included all 115 engineered matchup statistics for contests between 1 vs 16, 2 vs 15, 3 vs 14, and 4 vs 13 seeds across all seasons in our sample. A snapshot of the dataset can be seen below, but the full code to get to this final dataset is in MarchMadness_test.qmd:
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false 
+
+library(tidyverse)
+library(dplyr)
+library(knitr)
+
+matchups_data <- read.csv("./student-assignment/matchupstats_original_26.csv")
+
+
+matchups_data |>
+  select(
+    season, 
+    wteam_school,
+    lteam_school,
+    wteam_seed,
+    lteam_seed,
+    is_upset,
+    matchup_Offensive.Rebounds.per.Game,
+    matchup_Turnovers.per.Game
+  ) %>%
+  rename(
+    Upset = is_upset,
+    Off_Reb = matchup_Offensive.Rebounds.per.Game,
+    Turnovers = matchup_Turnovers.per.Game
+  ) %>%
+  slice(100:106) %>%
+  kable(caption = "Example Rows from Final Dataset")
+```
 
 # Modeling Approach
 
-text
+Once we had our final dataset we could begin with the selection process. Before applying the BOSS framework we needed to reduce from 115 matchup statistics to a smaller group of just the most informative variables. To do this, we used an Extra Trees Classifier which is an ensemble tree based machine learning method that ranks variables by their ability to separate upset games from non upset games.
+
+For each target tournament year the model was trained using only data from prior seasons in order to prevent leakage of data into the training process.  The training data included only Round of 64 games, with the response variable equal to whether the lower seeded team won.
+
+The classifier was fit using 100,000 trees which matched the original paper.
+
+``` python
+clf = ExtraTreesClassifier(    
+    n_estimators=N_TREES,    
+    max_features=max_feat,    
+    min_samples_split=2,    
+    random_state=RANDOM_STATE,    
+    n_jobs=-1,
+  )
+  
+clf.fit(X_train, y_train)
+  
+importances = pd.Series(
+    clf.feature_importances_, 
+    index=matchup_cols
+    )
+    
+top15 = importances.nlargest(TOP_N)
+```
+
+After training the variables were ranked using Gini importance, which measures how much each statistic helps split the data into upset and non upset outcomes across the forest. The top 15 ranked variables for each season were retained for the BOSS selection stage in a csv file called top15_by_year_26.csv and the full code for this step can be found in the decision_trees_26.py. 
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false 
+
+
+top15 <- read.csv("top15_by_year_26.csv")
+
+
+top15 |>
+  select(
+    target_year, 
+    rank, 
+    feature,
+    importance
+  ) %>%
+  rename(
+    Year = target_year
+  ) %>%
+  slice(1:9) %>%
+  kable(caption = "Example From Top 15 Variable Selection File")
+
+```
+
+This feature selection step was important because evaluating every combination of all 115 variables would be computationally infeasible. Reducing the space to the top 15 variables allowed us to focus on the statistics most associated with historical upset behavior while keeping the later BOSS optimization manageable. 
 
 # Results
 
@@ -56,6 +139,119 @@ text
 
 # Additional Approach
 
-text
+In addition to replicating the original BOSS framework, we tested a more traditional machine learning approach using the same tournament data. We fit an Extra Trees classification model using the top 15 features identified from prior seasons just like we did for the BOSS framework, but rather than selecting games based on similarity to past upsets we directly estimated the probability that each matchup would result in an upset. Games with predicted probabilities above a chosen cutoff were labeled as upset picks. Unlike BOSS, this approach allowed the model to select any number of upsets in a given season rather than forcing exactly two selections.
+
+However, this method performed notably worse than the BOSS approach. One major issue was threshold instability. A probability cutoff that worked well in one season often performed poorly in another, making predictions inconsistent across years. Also, first round upsets are relatively rare events which made it difficult for the model to learn patterns from the limited historical data. Even in seasons where the model correctly estimated the total number of upsets, it often selected the wrong games.
+
+Across the data, the model correctly identified 9 upset games out of 57 total selections, giving us an accuracy of approximately 16%. It also only correctly predicted the total number of first round upsets in a season three times between 2002 and 2026. These results suggest that while direct classification methods are intuitive, they may struggle in small sample settings with noisy and infrequent outcomes. The results of this additional model can be found in our folder and the csv titled upset_predictions_by_year_26 shows each games predicted probability and upset_model_year_summary_26 shows the overall summary of games that the model picked as upsets. Below is the summary of predicted upsets using this approach and as we can see there were few years where the model had high accuracy.
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false 
+
+
+upset_prediction <- read.csv("upset_model_year_summary_26.csv")
+
+upset_prediction |>
+  select(
+    season, 
+    actual_upsets,
+    predicted_upsets,
+    correct_upset_picks
+  ) %>%
+  kable(caption = "Alternative Approach Output")
+
+```
+
+Overall, comparing this alternative method to BOSS highlights the strength of the original framework. By treating upset prediction as a similarity and subset selection problem rather than a standard classification task, BOSS appears better suited for March Madness data, where the number of observations is small and historical upsets are limited.
 
 # Limitations and Conclusions
+
+While the BOSS framework offers an interesting alternative to traditional prediction models, several limitations should be acknowledged. First, the NCAA tournament provides a relatively small sample size each season, with only 32 first round games and even fewer upsets. This makes it difficult for any model to learn stable patterns over time. In addition, college basketball changes across eras through rule adjustments, style of play, conference strength, transfer portal movement, and NIL impacts, meaning historical upsets from the early 2000s may not fully reflect modern tournament conditions.
+
+A second limitation involves model design choices inherited from the original paper. The framework selects the top 15 variables, evaluates all 4 variable combinations, chooses 3 games from each combination, and ultimately predicts 2 upsets per year. While these choices were effective in the original study, they are somewhat arbitrary and may not be optimal for all seasons. Small adjustments to these tuning decisions could potentially change results. The authors of the paper did not fully explain their rationale for selecting these model parameters. It is possible that these values were chosen after repeated testing because they produced the strongest results. This is an important consideration when evaluating any statistical method, as model performance can sometimes depend heavily on tuning decisions that are not fully justified. A similar issue may apply to the decision to exclude 16-seed matchups from the original analysis. While no 16 seed had won at the time the paper was published, including those games in the 2000–2015 sample would have reduced the reported accuracy to 12.5%, suggesting that this choice may have improved overall performance. We see this in our extension to include 16-seed matchups, as including all first round games increases completeness, but 16-seed victories are historically extremely rare. As a result, adding these games likely reduced overall prediction accuracy because the model sometimes selected 16-seed matchups that almost never result in upsets.
+
+## sta345-final Folder Key 
+
+In our sta345-final folder there are many files and folders, so here is a key to best understand what each file represents: 
+
+**March Madness Regular Season Data Folder:**
+
+-   All of the regular season data from 2000-2026 pulled using our web scraper 
+
+**\
+Student Assignment Data Folder** 
+
+-   Contains all necessary data sets and csv files for our assignment
+
+\
+**BOSS Framework through 2025:** 
+
+-   MarchMadness.qmd:
+
+    -   Uses: tourney_results_mod_through_2025.csv 
+
+    -   Outputs: matchupstats_original.csv 
+
+<!-- -->
+
+-   diagnostics.py
+
+-   decision_trees.py
+
+    -   Uses: matchupstats_original.csv
+
+    -   Outputs: top15_by_year.csv 
+
+-   boss.py
+
+    -   Uses: matchupstats_original.csv and top15_by_year.csv
+
+    -   Outputs: boss_selections.csv 
+
+**BOSS Framework with 2026:**
+
+-   MarchMadness_test.qmd:
+
+    -   Uses: tourney_results_mod_through_2026_final.csv 
+
+    -   Outputs: matchupstats_original_26.csv 
+
+<!-- -->
+
+-   diagnostics_26.py
+
+-   decision_trees_26.py
+
+    -   Uses: matchupstats_original_26.csv
+
+    -   Outputs: top15_by_year_26.csv 
+
+-   boss_26.py
+
+    -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
+
+    -   Outputs: boss_selections_26.csv \
+
+**To test the original method from years 200-2015 with 16 seeds:**
+
+-   boss_16seed_test.py
+
+    -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
+
+    -   Outputs: boss_selections_16seed_test.csv
+
+**For our alternative approach:** 
+
+-   upset_model_26.py
+
+    -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
+
+    -   Outputs: upset_model_year_summary_26.csv and upset_predictions_by_year_26.csv
+
+-   upset_accuracy.py
+
+    -   Uses: upset_predictions_by_year_26.csv
+
+    -   Prints dataframe into VSC 
