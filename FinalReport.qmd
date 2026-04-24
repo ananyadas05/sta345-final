@@ -4,9 +4,7 @@ author: "Sam Hamelsky and Ananya Das"
 format: pdf
 ---
 
-## 
-
-## Introduction
+# Introduction
 
 Each year, the NCAA Men’s Basketball Tournament attracts millions of fans who try to predict the outcome of the bracket. First round upsets remain one of the hardest parts of the tournament to predict and frequently are the cause of incorrect brackets. Only a small number of tournament games are played each season and the event is single elimination making upset predictions a difficult statistical problem. 
 
@@ -14,9 +12,9 @@ This project examines a framework introduced in the paper Identifying March Madn
 
 Our goal is to replicate and extend the original study using NCAA tournament data through 2026. In addition to reproducing the core BOSS framework, we evaluate how the model performs when expanded to include 16-seed matchups.
 
-## Original Paper
+# Original Paper
 
-The original paper: <https://www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html>
+The original paper: [www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html](https://www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html){.uri}.
 
 The original paper proposed a new way to forecast NCAA tournament upsets among first round games involving 13, 14, and 15 seeds. It applied this method to data ranging from 2000-2015, but the paper did not include 16 seeds given that when it was published in 2017 there had been no 16 seeds upsets.  Instead of directly modeling game outcomes, the authors first identified historical tournament games in which lower seeded teams defeated higher seeded opponents. These upset games were treated as a reference group.
 
@@ -24,7 +22,17 @@ Current-year tournament matchups were then compared to this historical upset gro
 
 The paper reported strong results over the period from 2000 through 2015. Out of 26 predicted upsets, 10 were correct, corresponding to an accuracy rate of 38.4%. This outperformed simple random selection strategies and suggested that historical upset patterns may contain predictive value.
 
-## Data
+# BOSS Context and Usage
+
+BOSS (Balance Optimization Subset Selection) was developed by Nikolaev, Jacobson, and colleagues at the University of Illinois in 2013. It was originally designed for observational studies in medicine, where researchers compare treatment and control groups but cannot control how subjects are assigned to each group. Because group assignment is uncontrolled, the groups may differ in ways unrelated to the treatment itself, introducing bias into any comparison.
+
+In traditional matching approaches, this is addressed by pairing individual treated units to similar control units one at a time. BOSS takes a different approach. Rather than matching individuals, it searches directly for the subset of control units whose overall distribution best matches the treatment group. This reframes matching as a discrete optimization problem, which scales better as the number of variables grows.
+
+To measure how well two groups match, BOSS combines two statistics. The KS statistic captures the vertical difference between the groups' cumulative distributions. The relative difference captures the horizontal distance, essentially the shift in means. The KS statistic alone can miss cases where two distributions have similar shapes but different spreads, so using both together gives a more complete picture of balance.
+
+Jacobson and a new team, when analyzing March Madness upset predictions, realized they could apply BOSS in a new domain. They treated historical upsets as the "treatment group" and current-year first-round games as the "control pool." The goal is to find current games whose statistical profile most closely resembles past upsets. BOSS is well suited to this setting because tournament history contains relatively few upsets, and BOSS handles small datasets more robustly than individual pair-matching approaches.
+
+# Data
 
 To replicate the original study, we created a dataset combining regular season team statistics with NCAA tournament outcomes. Regular season team performance statistics were collected from TeamRankings.com for seasons spanning 2000 through 2026. This data was gathered using the original web scraper provided with the paper, which we expanded to include additional seasons and take into account any changes to the original website. The dataset contained 115 variables describing offensive efficiency, defensive efficiency, shooting performance, rebounding, turnovers, tempo, strength of schedule, and other team characteristics. Statistics were collected only through Selection Sunday each season, meaning they reflected regular season performance and did not include tournament results.
 
@@ -80,6 +88,8 @@ matchups_data |>
 
 # Modeling Approach
 
+### Machine Learning Selection
+
 Once we had our final dataset we could begin with the selection process. Before applying the BOSS framework we needed to reduce from 115 matchup statistics to a smaller group of just the most informative variables. To do this, we used an Extra Trees Classifier which is an ensemble tree based machine learning method that ranks variables by their ability to separate upset games from non upset games.
 
 For each target tournament year the model was trained using only data from prior seasons in order to prevent leakage of data into the training process.  The training data included only Round of 64 games, with the response variable equal to whether the lower seeded team won.
@@ -131,11 +141,33 @@ top15 |>
 
 ```
 
-This feature selection step was important because evaluating every combination of all 115 variables would be computationally infeasible. Reducing the space to the top 15 variables allowed us to focus on the statistics most associated with historical upset behavior while keeping the later BOSS optimization manageable. 
+This feature selection step was important because evaluating every combination of all 115 variables would be computationally infeasible. Reducing the space to the top 15 variables allowed us to focus on the statistics most associated with historical upset behavior while keeping the later BOSS optimization manageable.
+
+### BOSS Implementation
+
+After selecting features, we moved to Python to implement the BOSS selection step. For each target year, we defined the treatment group as all historical upsets from prior years and the control pool as all seed 13-16 matchups in that year. We extended the paper's original scope, which covered seeds 13-15, to include 16-seeds, capturing rare upsets like Virginia's loss in 2018.
+
+We then enumerated all 1,365 ways to choose 4 features from that year's top-15. For each combination, we enumerated every possible size-3 subset of the control pool and selected the subset that minimized the balance measure, computed as the sum over features of the larger of the KS statistic and relative difference. Each year used only features identified as important by a model trained exclusively on prior years, so no information from the target year ever influenced feature selection. This kept the pipeline leakage-free, so that the model never had access to data it would not have had in a real prediction scenario.
+
+### Final Game Selection
+
+Once every combination had selected its best 3-game subset, we used a tolerance parameter tau to decide which combinations got a vote in the final prediction. We computed the cumulative number of correct selections each combination had made in prior years, found the best-performing combination, and included only combinations within tau correct selections of that best. A lower tau means a stricter filter and fewer combinations voting; a higher tau is more permissive. We tested tau values from 1 to 20 each year, picking the value that performed best on the previous year's outcomes. Each included combination then voted for its 3 selected games, and the 2 games with the most votes across all included combinations became the final predictions for that year.
 
 # Results
 
-text
+Ultimately, our implementation selected 8 correct upsets out of 42 picks, achieving 19% accuracy, over 22 years (2004-2025). The original paper selected 10 correct upsets out of 26, achieving 38.4% accuracy over 13 years (2003-2015).
+
+Although our rate is lower, we covered a more complicated and longer time horizon. The most significant difference is that we included 16-seeds, which have only won twice in tournament history through 2025. Despite their rarity, the model selects them frequently, which decreases overall accuracy considerably.
+
+Of the 22 years we evaluated, 6 had zero correct selections, though several of those years had zero or one actual upset occur, which caps how many correct picks were even possible. With only 2 picks per year, our maximum achievable correct selections each year was consistently bounded by how many upsets actually happened.
+
+We got 8 correct selections across the full window. In 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we went 2 for 2. Notably, our accuracy improved over time. From 2008 to 2014 we had only 2 correct selections, compared to 6 between 2015 and 2024. This likely reflects the model improving as it accumulates more training data.
+
+Our selections skewed heavily toward 13-seeds and 16-seeds. The paper's selections concentrated at 13 and 14-seeds, with very few 15-seeds and no 16-seeds at all. The 16-seed picks in particular appear to hurt us, as the model selects them often without payoff.
+
+Tau, which controls how many combination sets contribute to the final selection, stayed at 1 for most years, meaning the model relied on only the single best-performing combination. This matches the paper's finding that tau stabilized from 2009 onward. A handful of years used values between 2 and 5, and early years with little historical data sometimes used all 1,365 combinations, while later years narrowed to fewer than 10 as the model grew more selective.
+
+The paper compared its 10/26 result against a weighted random baseline expecting about 4.42 correct over 13 years and argued the gap was significant. Our 8/42 falls much closer to what random selection would predict, particularly once 16-seeds are included, which appears to largely erase the model's edge over chance.
 
 # Additional Approach
 
@@ -172,86 +204,47 @@ While the BOSS framework offers an interesting alternative to traditional predic
 
 A second limitation involves model design choices inherited from the original paper. The framework selects the top 15 variables, evaluates all 4 variable combinations, chooses 3 games from each combination, and ultimately predicts 2 upsets per year. While these choices were effective in the original study, they are somewhat arbitrary and may not be optimal for all seasons. Small adjustments to these tuning decisions could potentially change results. The authors of the paper did not fully explain their rationale for selecting these model parameters. It is possible that these values were chosen after repeated testing because they produced the strongest results. This is an important consideration when evaluating any statistical method, as model performance can sometimes depend heavily on tuning decisions that are not fully justified. A similar issue may apply to the decision to exclude 16-seed matchups from the original analysis. While no 16 seed had won at the time the paper was published, including those games in the 2000–2015 sample would have reduced the reported accuracy to 12.5%, suggesting that this choice may have improved overall performance. We see this in our extension to include 16-seed matchups, as including all first round games increases completeness, but 16-seed victories are historically extremely rare. As a result, adding these games likely reduced overall prediction accuracy because the model sometimes selected 16-seed matchups that almost never result in upsets.
 
-## sta345-final Folder Key 
+## Key to "sta345-final" Folder 
 
-In our sta345-final folder there are many files and folders, so here is a key to best understand what each file represents: 
+In our sta345-final GitHub there are many files and folders, documented here.
 
-**March Madness Regular Season Data Folder:**
+-   **March Madness Regular Season Data Folder:**
+    -   All of the regular season data from 2000-2026 pulled using our web scraper 
+-   **Student Assignment Data Folder** 
+    -   Contains all necessary data sets and csv files for our assignment
+-   **BOSS Framework through 2025:** 
+    -   MarchMadness.qmd:
+        -   Uses: tourney_results_mod_through_2025.csv 
+        -   Outputs: matchupstats_original.csv 
+    -   diagnostics.py
+    -   decision_trees.py
+        -   Uses: matchupstats_original.csv
+        -   Outputs: top15_by_year.csv 
+    -   boss.py
+        -   Uses: matchupstats_original.csv and top15_by_year.csv
 
--   All of the regular season data from 2000-2026 pulled using our web scraper 
+        -   Outputs: boss_selections.csv 
+-   **BOSS Framework with 2026:**
+    -   MarchMadness_test.qmd:
+        -   Uses: tourney_results_mod_through_2026_final.csv 
+        -   Outputs: matchupstats_original_26.csv
+    -   diagnostics_26.py
+    -   decision_trees_26.py
+        -   Uses: matchupstats_original_26.csv
+        -   Outputs: top15_by_year_26.csv 
+    -   boss_26.py
+        -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
 
-**\
-Student Assignment Data Folder** 
+        -   Outputs: boss_selections_26.csv 
+-   **Testing the original method from years 2000-2015 with 16 seeds:**
+    -   boss_16seed_test.py
+        -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
+        -   Outputs: boss_selections_16seed_test.csv
+-   **Alternative approach:** 
+    -   upset_model_26.py
+        -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
+        -   Outputs: upset_model_year_summary_26.csv and upset_predictions_by_year_26.csv
+    -   upset_accuracy.py
+        -   Uses: upset_predictions_by_year_26.csv
 
--   Contains all necessary data sets and csv files for our assignment
-
-\
-**BOSS Framework through 2025:** 
-
--   MarchMadness.qmd:
-
-    -   Uses: tourney_results_mod_through_2025.csv 
-
-    -   Outputs: matchupstats_original.csv 
-
-<!-- -->
-
--   diagnostics.py
-
--   decision_trees.py
-
-    -   Uses: matchupstats_original.csv
-
-    -   Outputs: top15_by_year.csv 
-
--   boss.py
-
-    -   Uses: matchupstats_original.csv and top15_by_year.csv
-
-    -   Outputs: boss_selections.csv 
-
-**BOSS Framework with 2026:**
-
--   MarchMadness_test.qmd:
-
-    -   Uses: tourney_results_mod_through_2026_final.csv 
-
-    -   Outputs: matchupstats_original_26.csv 
-
-<!-- -->
-
--   diagnostics_26.py
-
--   decision_trees_26.py
-
-    -   Uses: matchupstats_original_26.csv
-
-    -   Outputs: top15_by_year_26.csv 
-
--   boss_26.py
-
-    -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
-
-    -   Outputs: boss_selections_26.csv \
-
-**To test the original method from years 200-2015 with 16 seeds:**
-
--   boss_16seed_test.py
-
-    -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
-
-    -   Outputs: boss_selections_16seed_test.csv
-
-**For our alternative approach:** 
-
--   upset_model_26.py
-
-    -   Uses: matchupstats_original_26.csv and top15_by_year_26.csv
-
-    -   Outputs: upset_model_year_summary_26.csv and upset_predictions_by_year_26.csv
-
--   upset_accuracy.py
-
-    -   Uses: upset_predictions_by_year_26.csv
-
-    -   Prints dataframe into VSC 
+        -   Prints dataframe into VSC 
