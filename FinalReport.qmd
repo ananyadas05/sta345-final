@@ -16,7 +16,7 @@ Our goal is to replicate and extend the original study using NCAA tournament dat
 
 The original paper: [www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html](https://www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html){.uri}.
 
-The original paper proposed a new way to forecast NCAA tournament upsets among first round games involving 13, 14, and 15 seeds. It applied this method to data ranging from 2000-2015, but the paper did not include 16 seeds given that when it was published in 2017 there had been no 16 seeds upsets.  Instead of directly modeling game outcomes, the authors first identified historical tournament games in which lower seeded teams defeated higher seeded opponents. These upset games were treated as a reference group.
+This proposed a new way to forecast NCAA tournament upsets among first round games involving 13, 14, and 15 seeds. It applied this method to data ranging from 2000-2015, but did not include 16 seeds given that when it was published in 2017 there had been no 16 seeds upsets. Instead of directly modeling game outcomes, the authors first identified historical tournament games in which lower seeded teams defeated higher seeded opponents. These upset games were treated as a reference group.
 
 Current-year tournament matchups were then compared to this historical upset group using team performance statistics. The goal was to determine which current games had statistical profiles most similar to past upsets. Games selected most frequently across repeated model runs were identified as the most likely upset candidates.
 
@@ -24,17 +24,17 @@ The paper reported strong results over the period from 2000 through 2015. Out of
 
 # BOSS Context and Usage
 
-BOSS (Balance Optimization Subset Selection) was developed by Nikolaev, Jacobson, and colleagues at the University of Illinois in 2013. It was originally designed for observational studies in medicine, where researchers compare treatment and control groups but cannot control how subjects are assigned to each group. Because group assignment is uncontrolled, the groups may differ in ways unrelated to the treatment itself, introducing bias into any comparison.
+BOSS (Balance Optimization Subset Selection) was developed by Nikolaev, Jacobson, and other colleagues at the University of Illinois in 2013. It was originally designed for observational studies in medicine, where researchers compare treatment and control groups but cannot control how subjects are assigned to each group. Because group assignment is uncontrolled, the groups may differ in ways unrelated to the treatment itself, introducing bias into any comparison.
 
 In traditional matching approaches, this is addressed by pairing individual treated units to similar control units one at a time. BOSS takes a different approach. Rather than matching individuals, it searches directly for the subset of control units whose overall distribution best matches the treatment group. This reframes matching as a discrete optimization problem, which scales better as the number of variables grows.
 
-To measure how well two groups match, BOSS combines two statistics. The KS statistic captures the vertical difference between the groups' cumulative distributions. The relative difference captures the horizontal distance, essentially the shift in means. The KS statistic alone can miss cases where two distributions have similar shapes but different spreads, so using both together gives a more complete picture of balance.
+To measure how well two groups match, BOSS combines two statistics. The Kolmogorov–Smirnov statistic captures the vertical difference between the groups' cumulative distributions. The relative difference captures the horizontal distance, essentially the shift in means. The KS statistic alone can miss cases where two distributions have similar shapes but different spreads, so using both together gives a more complete picture of balance.
 
-Jacobson and a new team, when analyzing March Madness upset predictions, realized they could apply BOSS in a new domain. They treated historical upsets as the "treatment group" and current-year first-round games as the "control pool." The goal is to find current games whose statistical profile most closely resembles past upsets. BOSS is well suited to this setting because tournament history contains relatively few upsets, and BOSS handles small datasets more robustly than individual pair-matching approaches.
+Jacobson and a new team, when analyzing March Madness upset predictions, realized they could apply BOSS in a new domain. They treated historical upsets as the "treatment group" and current-year first-round games as the "control pool." Their goal was to find current games whose statistical profile most closely resembles past upsets. BOSS is well suited to this setting because tournament history contains relatively few upsets, and BOSS handles small datasets more robustly than individual pair-matching approaches.
 
 # Data
 
-To replicate the original study, we created a dataset combining regular season team statistics with NCAA tournament outcomes. Regular season team performance statistics were collected from TeamRankings.com for seasons spanning 2000 through 2026. This data was gathered using the original web scraper provided with the paper, which we expanded to include additional seasons and take into account any changes to the original website. The dataset contained 115 variables describing offensive efficiency, defensive efficiency, shooting performance, rebounding, turnovers, tempo, strength of schedule, and other team characteristics. Statistics were collected only through Selection Sunday each season, meaning they reflected regular season performance and did not include tournament results.
+To replicate the original study, we created a dataset combining regular season team statistics with NCAA tournament outcomes. Regular season team performance statistics were collected from TeamRankings.com for seasons spanning 2000 through 2026. This data was gathered using the original web scraper provided with the paper, which we expanded to include additional seasons and take into account any changes to the original website. The dataset contained 115 variables describing team characteristics like offensive efficiency, defensive efficiency, shooting performance, rebounding, turnovers, tempo, and strength of schedule. Statistics were collected only through Selection Sunday each season, meaning they reflected regular season performance and did not include tournament results.
 
 Tournament outcomes were collected separately for all Round of 64 games. For each season, matchups were restricted to first round contests involving seeds 1 through 16. Both regular season statistics and tournament outcomes were stored in CSV files for processing.
 
@@ -42,7 +42,7 @@ Because team naming conventions differed across sources, team names were standar
 
 For each matchup, the lower seeded team and higher seeded team were identified numerically. An upset was defined as any game in which the lower seeded team defeated the higher seeded team.
 
-The original paper compares teams using ranking differences rather than raw statistics, and we followed the same approach. The reason we use ranking differences is it can be difficult to compare raw statistics across years as rules and the play of the game can greatly change. Within each season, every team was ranked for each of the 115 statistics. For a given statistic, a rank of 1 indicated the strongest team in that category, while the lowest rank (typically around 346, depending on the number of Division I teams that season) indicated the weakest. Ties were handled by assigning the average of the tied ranks. For variables where higher values are better, ranks were assigned in descending order. For variables where lower values are preferable, ranks were assigned in ascending order.
+The original paper compares teams using ranking differences rather than raw statistics, and we followed the same approach. The reason we use ranking differences is it can be difficult to compare raw statistics across years, for rules and the play of the game can greatly change. Within each season, every team was ranked for each of the 115 statistics. For a given statistic, a rank of 1 indicated the strongest team in that category, while the lowest rank (typically around 346, depending on the number of Division I teams that season) indicated the weakest. Ties were handled by assigning the average of the tied ranks. For variables where higher values are better, ranks were assigned in descending order. For variables where lower values are preferable, ranks were assigned in ascending order.
 
 For each season, the ranked regular season statistics were first merged with the Round of 64 tournament bracket data so that every first round matchup contained the rankings of both the lower seeded team and the higher seeded team across all 115 variables. This allowed us to directly compare the two teams within each game.
 
@@ -50,7 +50,7 @@ For each tournament matchup, a matchup statistic was then calculated as:
 
 **Matchup Difference = Rank of Lower Seed − Rank of Higher Seed**
 
-This transformation standardizes variables across seasons and places all statistics on a comparable scale. Positive values indicate that the favored team performed better in that category, while negative values indicate that the underdog performed better.
+This transformation standardized variables across seasons and places all statistics on a comparable scale. Positive values indicate that the favored team performed better in that category, while negative values indicate that the underdog performed better.
 
 After computing these ranking differences for every variable, the final dataset contained one row per tournament game and included all 115 engineered matchup statistics for contests between 1 vs 16, 2 vs 15, 3 vs 14, and 4 vs 13 seeds across all seasons in our sample. A snapshot of the dataset can be seen below, but the full code to get to this final dataset is in MarchMadness_test.qmd:
 
@@ -90,9 +90,9 @@ matchups_data |>
 
 ### Machine Learning Selection
 
-Once we had our final dataset we could begin with the selection process. Before applying the BOSS framework we needed to reduce from 115 matchup statistics to a smaller group of just the most informative variables. To do this, we used an Extra Trees Classifier which is an ensemble tree based machine learning method that ranks variables by their ability to separate upset games from non upset games.
+Once we had our final dataset, we could begin with the selection process. Before applying the BOSS framework we needed to reduce from 115 matchup statistics to a smaller group of the most informative variables. To do this, we used an Extra Trees Classifier which is an ensemble tree based machine learning method that ranks variables by their ability to separate upset games from non upset games.
 
-For each target tournament year the model was trained using only data from prior seasons in order to prevent leakage of data into the training process.  The training data included only Round of 64 games, with the response variable equal to whether the lower seeded team won.
+For each target tournament year the model was trained using only data from prior seasons in order to prevent leakage of data into the training process. The training data included only Round of 64 games, with the response variable equal to whether the lower seeded team won.
 
 The classifier was fit using 100,000 trees which matched the original paper.
 
@@ -142,9 +142,9 @@ This feature selection step was important because evaluating every combination o
 
 ### BOSS Implementation
 
-After selecting features, we moved to Python to implement the BOSS selection step. For each target year, we defined the treatment group as all historical upsets from prior years and the control pool as all seed 13-16 matchups in that year. We extended the paper's original scope, which covered seeds 13-15, to include 16-seeds, capturing rare upsets like Virginia's loss in 2018.
+After selecting features, we moved from R to Python to implement the BOSS selection step. For each target year, we defined the treatment group as all historical upsets from prior years and the control pool as all seed 13-16 matchups in that year. We extended the paper's original scope, which covered seeds 13-15, to include 16-seeds, capturing rare upsets like Virginia's loss in 2018.
 
-We then enumerated all 1,365 ways to choose 4 features from that year's top-15. For each combination, we enumerated every possible size-3 subset of the control pool and selected the subset that minimized the balance measure, computed as the sum over features of the larger of the KS statistic and relative difference. Each year used only features identified as important by a model trained exclusively on prior years, so no information from the target year ever influenced feature selection. This kept the pipeline leakage-free, so that the model never had access to data it would not have had in a real prediction scenario.
+We then enumerated all 1,365 ways to choose 4 features from that year's top-15. For each combination, we enumerated every possible size-3 subset of the control pool and selected the subset that minimized the balance measure, computed as the sum over features of the larger of the KS statistic and relative difference. Each year only used features identified as important by a model trained exclusively on prior years, so no information from the target year ever influenced feature selection. This kept the pipeline free of leakages, so that the model never had access to data that it would not have had in a real prediction scenario.
 
 ### Final Game Selection
 
@@ -158,11 +158,13 @@ Although our rate is lower, we covered a more complicated and longer time horizo
 
 Of the 22 years we evaluated, 6 had zero correct selections, though several of those years had zero or one actual upset occur, which caps how many correct picks were even possible. With only 2 picks per year, our maximum achievable correct selections each year was consistently bounded by how many upsets actually happened.
 
-We got 8 correct selections across the full window. In 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we had both accurate. Notably, our accuracy improved over time. From 2008 to 2014 we had only 2 correct selections, compared to 6 between 2015 and 2024. This likely reflects the model improving as it accumulates more training data.
+We got 8 correct selections across the full window. In 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we had both accurate.
+
+Notably, our accuracy improved over time. From 2008 to 2014 we had only 2 correct selections, compared to 6 between 2015 and 2024. This likely reflects the model improving as it accumulates more training data.
 
 Our selections skewed heavily toward 13-seeds and 16-seeds. The paper's selections concentrated at 13 and 14-seeds, with very few 15-seeds and no 16-seeds at all. The 16-seed picks in particular appear to hurt us, as the model selects them often without payoff.
 
-Tau, which controls how many combination sets contribute to the final selection, stayed at 1 for most years, meaning the model relied on only the single best-performing combination. This matches the paper's finding that tau stabilized from 2009 onward. A handful of years used values between 2 and 5, and early years with little historical data sometimes used all 1,365 combinations, while later years narrowed to fewer than 10 as the model grew more selective.
+Tau, which controls how many combination sets contribute to the final selection, stayed at 1 for most years, meaning the model relied on only the single best-performing combination. This matches the paper's finding that tau stabilized from 2009 onward, although a handful of years used values between 2 and 5. Early years with little historical data sometimes used all 1,365 combinations, while later years narrowed to fewer than 10 as the model grew more selective.
 
 The paper compared its 10/26 result against a weighted random baseline expecting about 4.42 correct over 13 years and argued the gap was significant. Our 8/42 falls much closer to what random selection would predict, particularly once 16-seeds are included, which appears to largely erase the model's edge over chance.
 
