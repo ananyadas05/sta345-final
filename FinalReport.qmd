@@ -20,7 +20,7 @@ The original paper proposed a new way to forecast NCAA tournament upsets among f
 
 Current-year tournament matchups were then compared to this historical upset group using team performance statistics. The goal was to determine which current games had statistical profiles most similar to past upsets. Games selected most frequently across repeated model runs were identified as the most likely upset candidates.
 
-The paper reported strong results over the period from 2000 through 2015. Out of 26 predicted upsets, 10 were correct, corresponding to an accuracy rate of 38.4%. This outperformed simple random selection strategies and suggested that historical upset patterns may contain predictive value.
+The paper reported strong results over the period from 2000 through 2015. Out of 26 predicted upsets, 10 were correct, corresponding to an accuracy rate of 38.4%. This outperformed simple random selection and suggested that historical upset patterns may contain predictive value.
 
 # BOSS Context and Usage
 
@@ -102,15 +102,12 @@ clf = ExtraTreesClassifier(
     max_features=max_feat,    
     min_samples_split=2,    
     random_state=RANDOM_STATE,    
-    n_jobs=-1,
-  )
+    n_jobs=-1)
   
 clf.fit(X_train, y_train)
-  
 importances = pd.Series(
     clf.feature_importances_, 
-    index=matchup_cols
-    )
+    index=matchup_cols)
     
 top15 = importances.nlargest(TOP_N)
 ```
@@ -161,7 +158,7 @@ Although our rate is lower, we covered a more complicated and longer time horizo
 
 Of the 22 years we evaluated, 6 had zero correct selections, though several of those years had zero or one actual upset occur, which caps how many correct picks were even possible. With only 2 picks per year, our maximum achievable correct selections each year was consistently bounded by how many upsets actually happened.
 
-We got 8 correct selections across the full window. In 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we went 2 for 2. Notably, our accuracy improved over time. From 2008 to 2014 we had only 2 correct selections, compared to 6 between 2015 and 2024. This likely reflects the model improving as it accumulates more training data.
+We got 8 correct selections across the full window. In 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we had both accurate. Notably, our accuracy improved over time. From 2008 to 2014 we had only 2 correct selections, compared to 6 between 2015 and 2024. This likely reflects the model improving as it accumulates more training data.
 
 Our selections skewed heavily toward 13-seeds and 16-seeds. The paper's selections concentrated at 13 and 14-seeds, with very few 15-seeds and no 16-seeds at all. The 16-seed picks in particular appear to hurt us, as the model selects them often without payoff.
 
@@ -175,7 +172,7 @@ In addition to replicating the original BOSS framework, we tested a more traditi
 
 However, this method performed notably worse than the BOSS approach. One major issue was threshold instability. A probability cutoff that worked well in one season often performed poorly in another, making predictions inconsistent across years. Also, first round upsets are relatively rare events which made it difficult for the model to learn patterns from the limited historical data. Even in seasons where the model correctly estimated the total number of upsets, it often selected the wrong games.
 
-Across the data, the model correctly identified 9 upset games out of 57 total selections, giving us an accuracy of approximately 16%. It also only correctly predicted the total number of first round upsets in a season three times between 2002 and 2026. These results suggest that while direct classification methods are intuitive, they may struggle in small sample settings with noisy and infrequent outcomes. The results of this additional model can be found in our folder and the csv titled upset_predictions_by_year_26 shows each games predicted probability and upset_model_year_summary_26 shows the overall summary of games that the model picked as upsets. Below is the summary of predicted upsets using this approach and as we can see there were few years where the model had high accuracy.
+Across the data, the model correctly identified 9 upset games out of 57 total selections, giving us an accuracy of approximately 16%. It also only correctly predicted the total number of first round upsets in a season three times since 2002. These results suggest that while direct classification methods are intuitive, they may struggle in small sample settings with noisy and infrequent outcomes. The results of this additional model can be found in our folder and the csv titled upset_predictions_by_year_26 shows each games predicted probability and upset_model_year_summary_26 shows the overall summary of games that the model picked as upsets. Below is the summary of predicted upsets using this approach and as we can see there were few years where the model had high accuracy.
 
 ```{r}
 #| echo: false 
@@ -204,7 +201,7 @@ While the BOSS framework offers an interesting alternative to traditional predic
 
 A second limitation involves model design choices inherited from the original paper. The framework selects the top 15 variables, evaluates all 4 variable combinations, chooses 3 games from each combination, and ultimately predicts 2 upsets per year. While these choices were effective in the original study, they are somewhat arbitrary and may not be optimal for all seasons. Small adjustments to these tuning decisions could potentially change results. The authors of the paper did not fully explain their rationale for selecting these model parameters. It is possible that these values were chosen after repeated testing because they produced the strongest results. This is an important consideration when evaluating any statistical method, as model performance can sometimes depend heavily on tuning decisions that are not fully justified. A similar issue may apply to the decision to exclude 16-seed matchups from the original analysis. While no 16 seed had won at the time the paper was published, including those games in the 2000–2015 sample would have reduced the reported accuracy to 12.5%, suggesting that this choice may have improved overall performance. We see this in our extension to include 16-seed matchups, as including all first round games increases completeness, but 16-seed victories are historically extremely rare. As a result, adding these games likely reduced overall prediction accuracy because the model sometimes selected 16-seed matchups that almost never result in upsets.
 
-## Key to "sta345-final" Folder 
+# Repository Structure
 
 In our sta345-final GitHub there are many files and folders, documented here.
 
