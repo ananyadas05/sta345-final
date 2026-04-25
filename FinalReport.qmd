@@ -1,6 +1,7 @@
 ---
 title: "Identifying March Madness Upsets with BOSS Final Report"
 author: "Sam Hamelsky and Ananya Das"
+date: "April 25 2026"
 format: pdf
 ---
 
@@ -14,9 +15,7 @@ Our goal is to replicate and extend the original study using NCAA tournament dat
 
 # Original Paper
 
-The original paper: [www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html](https://www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html){.uri}.
-
-This proposed a new way to forecast NCAA tournament upsets among first round games involving 13, 14, and 15 seeds. It applied this method to data ranging from 2000-2015, but did not include 16 seeds given that when it was published in 2017 there had been no 16 seeds upsets. Instead of directly modeling game outcomes, the authors first identified historical tournament games in which lower seeded teams defeated higher seeded opponents. These upset games were treated as a reference group.
+[The original paper](www.degruyterbrill.com/document/doi/10.1515/jqas-2016-0062/html.) proposed a new way to forecast NCAA tournament upsets among first round games involving 13, 14, and 15 seeds. It applied this method to data ranging from 2000-2015, but did not include 16 seeds given that when it was published in 2017 there had been no 16 seeds upsets. Instead of directly modeling game outcomes, the authors first identified historical tournament games in which lower seeded teams defeated higher seeded opponents. These upset games were treated as a reference group.
 
 Current-year tournament matchups were then compared to this historical upset group using team performance statistics. The goal was to determine which current games had statistical profiles most similar to past upsets. Games selected most frequently across repeated model runs were identified as the most likely upset candidates.
 
