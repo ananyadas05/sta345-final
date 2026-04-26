@@ -157,7 +157,21 @@ Although our rate is lower, we covered a more complicated and longer time horizo
 
 Of the 22 years we evaluated, 6 had zero correct selections, though several of those years had zero or one actual upset occur, which caps how many correct picks were even possible. With only 2 picks per year, our maximum achievable correct selections each year was consistently bounded by how many upsets actually happened.
 
-We got 8 correct selections across the full window. In 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we had both accurate.
+We got 8 correct selections across the full window, as indicated in the table below.
+
+|          |                               |          |
+|----------|-------------------------------|----------|
+| **Year** | **Predicted Matchup / Upset** | **Seed** |
+| 2008     | Siena over Vanderbilt         | 13       |
+| 2010     | Ohio over Georgetown          | 14       |
+| 2015     | Georgia St over Baylor        | 14       |
+| 2016     | SF Austin over West Virginia  | 14       |
+| 2018     | Buffalo over Arizona          | 13       |
+| 2018     | Marshall over Wichita St      | 13       |
+| 2021     | Oral Roberts over Ohio St     | 15       |
+| 2023     | Princeton over Arizona        | 15       |
+
+Notably, in 2008, we correctly picked both Buffalo and Siena (both 13-seeds over Arizona and Vanderbilt). In 2018, we correctly picked both Buffalo over Arizona and Marshall over Wichita State, both 13-seeds and the only year we had both accurate.
 
 Notably, our accuracy improved over time. From 2008 to 2014 we had only 2 correct selections, compared to 6 between 2015 and 2024. This likely reflects the model improving as it accumulates more training data.
 
@@ -201,6 +215,10 @@ Overall, comparing this alternative method to BOSS highlights the strength of th
 While the BOSS framework offers an interesting alternative to traditional prediction models, several limitations should be acknowledged. First, the NCAA tournament provides a relatively small sample size each season, with only 32 first round games and even fewer upsets. This makes it difficult for any model to learn stable patterns over time. In addition, college basketball changes across eras through rule adjustments, style of play, conference strength, transfer portal movement, and NIL impacts, meaning historical upsets from the early 2000s may not fully reflect modern tournament conditions.
 
 A second limitation involves model design choices inherited from the original paper. The framework selects the top 15 variables, evaluates all 4 variable combinations, chooses 3 games from each combination, and ultimately predicts 2 upsets per year. While these choices were effective in the original study, they are somewhat arbitrary and may not be optimal for all seasons. Small adjustments to these tuning decisions could potentially change results. The authors of the paper did not fully explain their rationale for selecting these model parameters. It is possible that these values were chosen after repeated testing because they produced the strongest results. This is an important consideration when evaluating any statistical method, as model performance can sometimes depend heavily on tuning decisions that are not fully justified. A similar issue may apply to the decision to exclude 16-seed matchups from the original analysis. While no 16 seed had won at the time the paper was published, including those games in the 2000–2015 sample would have reduced the reported accuracy to 12.5%, suggesting that this choice may have improved overall performance. We see this in our extension to include 16-seed matchups, as including all first round games increases completeness, but 16-seed victories are historically extremely rare. As a result, adding these games likely reduced overall prediction accuracy because the model sometimes selected 16-seed matchups that almost never result in upsets.
+
+As we worked through this project, we learned a lot about how accuracy numbers can substantitally move through researchers' choices that initially seem small, like excluding 16-seeds or selecting specific tuning parameters. That being said, we were also very grateful for the generosity of the original authors, who shared their data scraper and offered advice that made it much more feasible to replicate their work. We were pleasantly surprised by how smoothly the Python side of the pipeline came together, since the authors built their framework around libraries and tools that remain standard today
+
+Overall, we were most surprised by how much our accuracy diverged from the paper's reported results, even when following the same core methodology. That gap turned out to be one of the most instructive parts of the project, pushing us to think carefully about what it actually means to evaluate a model fairly across time. Predicting March Madness upsets is inherently challenging, and we learned a lot by getting to engage with a real published method, test it, and attempt to extend it.
 
 # Repository Structure
 
